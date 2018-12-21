@@ -37,7 +37,9 @@
     ]
   },
   "keywords": [
-    "generator-nod"
+    "komodo",
+    "rpc",
+    "library"
   ],
   "dependencies": {},
   "devDependencies": {
