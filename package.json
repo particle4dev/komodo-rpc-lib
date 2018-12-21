@@ -1,15 +1,10 @@
 {
-  "name": "generator-nod",
+  "name": "komodo-rpc-lib",
   "version": "0.0.1",
-  "description": "My node module",
+  "description": "komodo rpc library",
   "license": "MIT",
-  "repository": "diegohaz/nod",
+  "repository": "pbca26/komodo-rpc-lib",
   "main": "dist/index.js",
-  "author": {
-    "name": "Diego Haz",
-    "email": "hazdiego@gmail.com",
-    "url": "https://github.com/diegohaz"
-  },
   "files": [
     "dist",
     "src"
