@@ -1,2 +1,2 @@
-# komodo-rpc-lib
-Komodo RCP Lib
+# [Komodo RPC Library]
+[![Coverage Status](https://coveralls.io/repos/github/particle4dev/komodo-rpc-lib/badge.svg?branch=master)](https://coveralls.io/github/particle4dev/komodo-rpc-lib?branch=master)
