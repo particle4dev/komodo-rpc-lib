@@ -6,7 +6,9 @@ let api = null;
 function setup() {
   if (api) return api;
 
-  api = KomodoRPC({});
+  api = KomodoRPC({
+    
+  });
 
   return api;
 }
