@@ -5,8 +5,7 @@ import type { StateType } from "./schema";
 
 const debug = require("debug")("kmdrpc:daemon:index");
 
-export default function startDaemon(coin: string) {
-  debug(`initializing ${coin}`);
+export function Daemon(coin: string) {
   const state: StateType = {
     coin
   };
@@ -17,4 +16,15 @@ export default function startDaemon(coin: string) {
     },
     configFactory(state)
   );
+}
+
+export default function daemonFactory() {
+  return {
+    startDaemon(coin: string) {
+      debug(`initializing ${coin}`);
+    },
+    stopDaemon(coin: string) {
+      debug(`stop ${coin}`);
+    }
+  };
 }

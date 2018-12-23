@@ -10,6 +10,18 @@ function setup() {
     
   });
 
+  // start daemon
+  const kmdd = api.startDaemon({
+    coin: 'KMD'
+  });
+
+  // stop daemon 
+  // kmdd.quit();
+  // or
+  // api.stopDaemon({
+    // coin: 'KMD'
+  // });
+
   return api;
 }
 

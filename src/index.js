@@ -1,4 +1,5 @@
 // @flow
+import daemonFactory from "./daemon";
 
 /**
  * This function says hello.
@@ -10,6 +11,8 @@
 
 // const debug = require("debug")("kmdrpc:index");
 
-export function KomodoRPC() {}
+export function KomodoRPC() {
+  return Object.assign({}, daemonFactory());
+}
 
 export default function setup() {}
