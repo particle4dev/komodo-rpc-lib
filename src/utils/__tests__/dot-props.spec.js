@@ -178,6 +178,9 @@ describe("lib/dot-props", () => {
     const f3 = { foo: null };
     m.delete(f3, "foo.bar");
     expect(f3).toEqual({ foo: null });
+
+    expect(m.delete(null, "foo.bar")).toEqual(undefined);
+    expect(m.delete(f3, null)).toEqual(undefined);
   });
 
   it("has", () => {
