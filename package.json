@@ -13,6 +13,7 @@
     "dev": "cross-env DEBUG=kmdrpc:* ./node_modules/.bin/babel-node test/app.js",
     "test": "jest",
     "coverage": "npm test -- --coverage",
+    "test-coverage": "npm test -- --coverage",
     "postcoverage": "opn coverage/lcov-report/index.html",
     "lint": "eslint .",
     "lint-fix": "eslint --fix .",
