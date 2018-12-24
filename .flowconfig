@@ -1,3 +1,6 @@
 [ignore]
 .*/dist
 .*/coverage
+
+[options]
+suppress_comment= \\(.\\|\n\\)*\\$FlowIgnore
