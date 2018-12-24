@@ -1,5 +1,6 @@
 // @flow
 import daemonFactory from "./daemon";
+import rpcFactory from "./rpc";
 
 /**
  * This function says hello.
@@ -9,10 +10,13 @@ import daemonFactory from "./daemon";
 
 // const sayHello = (name: string = "Haz"): string => `Hello, ${name}!`;
 
-// const debug = require("debug")("kmdrpc:index");
+const debug = require("debug")("kmdrpc:index");
 
-export function KomodoRPC() {
-  return Object.assign({}, daemonFactory());
+// eslint-disable-next-line no-unused-vars
+export function KomodoRPC(applicationName: string) {
+  return Object.assign({}, daemonFactory(), rpcFactory());
 }
 
-export default function setup() {}
+export default function setup() {
+  debug("setup KomodoRPC");
+}
