@@ -19,6 +19,7 @@ export default function daemonFactory() {
   const state = ConfigManager();
   return {
     startDaemon(coin: string) {
+      debug(`start daemon ${coin}`);
       // step one: find coin in state manager
       let d = state.get(coin);
       // step two: if found, return it
@@ -30,8 +31,17 @@ export default function daemonFactory() {
       // step five: return it
       return d;
     },
-    stopDaemon(coin: string) {
-      debug(`stop ${coin}`);
+    stopDaemon(coin: string): Promise<any> {
+      debug(`stop daemon ${coin}`);
+      // step one: find coin in state manager
+      const d = state.get(coin);
+      // step two: not found
+      if (!d) {
+        return Promise.resolve({
+          ok: "failed"
+        });
+      }
+      return d.stop();
     }
   };
 }
