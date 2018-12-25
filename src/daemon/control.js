@@ -78,6 +78,11 @@ export default function controlFactory(state: StateType) {
     isRunning(): boolean {
       return !!childProcess;
     },
+    isReady(): Promise<any> {
+      return new Promise((resovle, reject) => {
+        reject(new Error("not implement yet"));
+      });
+    },
     on(event: string, callback: Function): null {
       debug(`add ${event} event for ${state.coin}`);
       if (childProcess) {
