@@ -17,5 +17,21 @@ export function getInfo(config: RPCType): Promise<any> {
   return callRPC(config);
 }
 
-export default function getInfoFactory() {}
+type RPCTypeFactory = {
+  cli?: string,
+  args?: Object
+};
+
+export default function getInfoFactory(coin: string) {
+  return {
+    getInfo(config: RPCTypeFactory = {}): Promise<any> {
+      // $FlowIgnore: suppressing this error
+      config.action = "getinfo";
+      // $FlowIgnore: suppressing this error
+      config.coin = coin;
+      // $FlowIgnore: suppressing this error
+      return callRPC(config);
+    }
+  };
+}
 /* eslint-enable no-param-reassign */

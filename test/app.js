@@ -58,17 +58,16 @@ function wait(delay) {
     //   action: "help"
     // });
     // debug(`help = ${help}`);
-
-    const info = await api.getInfo({
-      coin
-    });
+    const info = await komodod.getInfo();
     debug(`info = ${info}`);
-
+    // const info = await api.getInfo({
+    //   coin
+    // });
+    // debug(`info = ${info}`);
     // const info = await komodod.rpc({
     //   action: "getinfo"
     // });
     // debug(`info = ${info}`);
-
     // const info = await api.rpc({
     //   coin,
     //   action: "getinfo"
