@@ -3,6 +3,7 @@
 import ConfigManager from "../utils/config-manager";
 import configFactory from "./config";
 import controlFactory from "./control";
+import rpcFactory from "./rpc";
 import type { StateType } from "./schema";
 
 const debug = require("debug")("kmdrpc:daemon:index");
@@ -12,7 +13,12 @@ export function Daemon(coin: string) {
   const state: StateType = {
     coin
   };
-  return Object.assign({}, controlFactory(state), configFactory(state));
+  return Object.assign(
+    {},
+    controlFactory(state),
+    configFactory(state),
+    rpcFactory(state)
+  );
 }
 
 export default function daemonFactory() {
