@@ -8,6 +8,8 @@ import type { StateType } from "./schema";
 
 const debug = require("debug")("kmdrpc:daemon:control");
 
+const TIMEOUT = 60 * 1000;
+
 type ParamsType = {
   ac_supply: number,
   addnode: string,
@@ -36,7 +38,7 @@ export default function controlFactory(state: StateType) {
         .filter(v => v !== null);
       argsParam.push(`-ac_name=${this.getCoin()}`);
 
-      return new Promise(async (resovle, reject) => {
+      return new Promise(async (resolve, reject) => {
         // HOW TO DETECT IF PROCESS SPAWNED SUCCESSFULLY
         // https://github.com/nodejs/help/issues/1191
         //
@@ -56,21 +58,21 @@ export default function controlFactory(state: StateType) {
         childProcess.stderr.setEncoding("utf8");
         childProcess.stderr.pipe(split2()).on("data", data => debug(data));
         if (typeof childProcess.pid === "number") {
-          resovle(childProcess);
+          resolve(childProcess);
         }
       });
     },
     stop(): Promise<any> {
       debug(`stop komodod for ${state.coin}`);
-      // return new Promise((resovle, reject) => {
-      return new Promise(resovle => {
+      // return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
         if (childProcess) {
           childProcess.kill();
         }
 
         childProcess = null;
         killProcess("komodod");
-        resovle({
+        resolve({
           ok: "done"
         });
       });
@@ -79,8 +81,37 @@ export default function controlFactory(state: StateType) {
       return !!childProcess;
     },
     isReady(): Promise<any> {
-      return new Promise((resovle, reject) => {
-        reject(new Error("not implement yet"));
+      return new Promise(async resolve => {
+        try {
+          await this.getInfo();
+          resolve({
+            ok: "done"
+          });
+        } catch (err) {
+          debug(err.message);
+          resolve({
+            ok: "failed"
+          });
+        }
+      });
+    },
+    waitUntilReady(time: number = TIMEOUT): Promise<any> {
+      return new Promise((resolve, reject) => {
+        const interval = setInterval(async () => {
+          try {
+            await this.getInfo();
+            clearInterval(interval);
+            resolve({
+              ok: "done"
+            });
+            // eslint-disable-next-line no-empty
+          } catch (_) {}
+        }, 100);
+
+        setTimeout(() => {
+          clearInterval(interval);
+          reject(new Error("Giving up trying to connect to marketmaker"));
+        }, time);
       });
     },
     on(event: string, callback: Function): null {
