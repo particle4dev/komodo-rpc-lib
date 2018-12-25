@@ -48,8 +48,8 @@ function wait(delay) {
       }, 2000);
     });
 
-    // Step 3: wait in 60s
-    await wait(60 * 1000);
+    // Step 3: wait in 30s
+    await wait(30 * 1000);
 
     // Step 4: call rpc (komodo cli)
 
@@ -59,11 +59,21 @@ function wait(delay) {
     // });
     // debug(`help = ${help}`);
 
-    const info = await api.rpc({
-      coin,
-      action: "getinfo"
+    const info = await api.getInfo({
+      coin
     });
     debug(`info = ${info}`);
+
+    // const info = await komodod.rpc({
+    //   action: "getinfo"
+    // });
+    // debug(`info = ${info}`);
+
+    // const info = await api.rpc({
+    //   coin,
+    //   action: "getinfo"
+    // });
+    // debug(`info = ${info}`);
 
     const getnewaddress = await api.rpc({
       coin,
