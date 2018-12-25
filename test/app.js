@@ -2,12 +2,6 @@ import { KomodoRPC } from "../src";
 
 const debug = require("debug")("kmdrpc:test");
 
-function wait(delay) {
-  return new Promise(resovle => {
-    setTimeout(resovle, delay);
-  });
-}
-
 (async () => {
   const application = "Agama";
   const coin = "KMDICE";
@@ -59,7 +53,10 @@ function wait(delay) {
     });
 
     // Step 3: wait in 30s
-    await wait(30 * 1000);
+    const isReady = await komodod.isReady();
+    debug(`isReady = ${JSON.stringify(isReady)}`);
+    const waitUntilReady = await komodod.waitUntilReady();
+    debug(`waitUntilReady = ${JSON.stringify(waitUntilReady)}`);
 
     // Step 4: call rpc (komodo cli)
 
