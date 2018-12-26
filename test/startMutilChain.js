@@ -62,7 +62,7 @@ const debug = require("debug")("kmdrpc:test:startMutilChain");
     kmdiced.on("exit", end);
     coquid.on("exit", end);
 
-    // Step 3: wait in 30s
+    // Step 3: wait until ready
     const kmdicedReady = await kmdiced.waitUntilReady();
     debug(`kmdicedReady = ${JSON.stringify(kmdicedReady)}`);
 
@@ -80,10 +80,6 @@ const debug = require("debug")("kmdrpc:test:startMutilChain");
       rs = await coquid.stop();
       debug(`rs.ok === done = ${rs.ok === "done"}`);
     }
-
-    setTimeout(() => {
-      process.exit(0);
-    }, 2000);
   } catch (err) {
     debug(JSON.stringify(err));
     setTimeout(() => {

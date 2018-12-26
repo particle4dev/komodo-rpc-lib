@@ -52,7 +52,7 @@ const debug = require("debug")("kmdrpc:test");
       }, 2000);
     });
 
-    // Step 3: wait in 30s
+    // Step 3: wait until ready
     const isReady = await komodod.isReady();
     debug(`isReady = ${JSON.stringify(isReady)}`);
     const waitUntilReady = await komodod.waitUntilReady();
