@@ -34,9 +34,7 @@ describe("src/path/getApplicationPath", () => {
   });
 
   it("getKomodoPath", () => {
-    expect(getKomodoPath("darwin")).toEqual(
-      "HOME/Library/Application Support/Komodo"
-    );
+    expect(getKomodoPath("darwin", "darwin")).toEqual("darwin/Komodo");
     expect(getKomodoPath("linux", "linux")).toEqual("linux/.komodo");
     expect(getKomodoPath("win32", "win32")).toEqual("win32/Komodo");
     expect(getKomodoPath("bin-path", "")).toEqual("");
