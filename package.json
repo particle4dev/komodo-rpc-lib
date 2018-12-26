@@ -11,6 +11,8 @@
   ],
   "scripts": {
     "dev": "cross-env DEBUG=kmdrpc:* ./node_modules/.bin/babel-node test/app.js",
+    "devtest": "cross-env DEBUG=kmdrpc:* ./node_modules/.bin/babel-node",
+    "devkmdice": "npm run devtest -- test/startKMDice.js",
     "test": "jest",
     "coverage": "npm test -- --coverage",
     "test-coverage": "npm test -- --coverage",
