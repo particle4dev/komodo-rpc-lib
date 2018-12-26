@@ -8,10 +8,11 @@ import type { StateType } from "./schema";
 
 const debug = require("debug")("kmdrpc:daemon:index");
 
-export function Daemon(coin: string) {
+export function Daemon(coin: string, applicationName: string) {
   debug(`initializing ${coin}`);
   const state: StateType = {
-    coin
+    coin,
+    applicationName
   };
   return Object.assign(
     {},
@@ -21,7 +22,7 @@ export function Daemon(coin: string) {
   );
 }
 
-export default function daemonFactory() {
+export default function daemonFactory(applicationName: string) {
   const state = ConfigManager();
   return {
     startDaemon(coin: string) {
@@ -31,7 +32,7 @@ export default function daemonFactory() {
       // step two: if found, return it
       if (d) return d;
       // step three: if not found, start daemon
-      d = Daemon(coin);
+      d = Daemon(coin, applicationName);
       // step four: register it in state
       state.set(coin, d);
       // step five: return it

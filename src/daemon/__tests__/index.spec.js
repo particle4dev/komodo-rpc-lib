@@ -9,6 +9,7 @@ test("src/daemon/index", () => {
   expect(typeof d.on).toBe("function");
   expect(typeof d.getConfig).toBe("function");
   expect(typeof d.getCoin).toBe("function");
+  expect(typeof d.getApplicationName).toBe("function");
   expect(typeof d.getKomodoDir).toBe("function");
   expect(typeof d.rpc).toBe("function");
   expect(typeof d.getInfo).toBe("function");

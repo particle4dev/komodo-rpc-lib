@@ -1,5 +1,6 @@
 // @flow
 
 export type StateType = {
-  coin: string
+  coin: string,
+  applicationName: string
 };

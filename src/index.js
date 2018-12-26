@@ -12,9 +12,8 @@ import rpcFactory from "./rpc";
 
 const debug = require("debug")("kmdrpc:index");
 
-// eslint-disable-next-line no-unused-vars
 export function KomodoRPC(applicationName: string) {
-  return Object.assign({}, daemonFactory(), rpcFactory());
+  return Object.assign({}, daemonFactory(applicationName), rpcFactory());
 }
 
 export default function setup() {
