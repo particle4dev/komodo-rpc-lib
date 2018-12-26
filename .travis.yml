@@ -19,16 +19,6 @@ matrix:
         - 11
         - 10
         - 8
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-4.8
-            - icnsutils
-            - graphicsmagick
-            - xz-utils
-            - xorriso
 
 script:
   - 'yarn lint'
