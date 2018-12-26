@@ -110,6 +110,9 @@ const debug = require("debug")("kmdrpc:test");
     // debug(`unavailable = ${unavailable}`);
 
     // Step 5: stop daemon
+    const config = await komodod.getConfig();
+    debug(`config = ${JSON.stringify(config)}`);
+
     if (komodod.isRunning() === true) {
       // const rs = await komodod.stop();
       // or
