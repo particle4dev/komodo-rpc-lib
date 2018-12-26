@@ -1,16 +1,47 @@
-language: node_js
-node_js:
-  - 11
-  - 10
-  - 9
-  - 8
+# Config adapted from:
+# https://www.electron.build/multi-platform-build#sample-travisyml-to-build-electron-app-for-macos-linux-and-windows
+sudo: true
+
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode9.4
+      language: node_js
+      node_js:
+        - 11
+        - 10
+        - 9
+        - 8
+
+    - os: linux
+      services: docker
+      language: node_js
+      node_js:
+        - 11
+        - 10
+        - 9
+        - 8
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.8
+            - icnsutils
+            - graphicsmagick
+            - xz-utils
+            - xorriso
+
 script:
   - 'yarn lint'
   - 'yarn test --coverage'
+
 cache:
   - yarn
+
 after_success:
   - 'cat ./coverage/lcov.info | ./node_modules/.bin/coveralls'
+
 notifications:
   email:
     recipients:
