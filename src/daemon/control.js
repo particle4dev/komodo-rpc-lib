@@ -24,6 +24,8 @@ type StartType = {
 export default function controlFactory(state: StateType) {
   debug(`setup control for ${state.coin}`);
   let childProcess = null;
+  // NOTE: kill all komodod before start
+  killProcess("komodod");
   return {
     start(config: StartType): Promise<any> {
       debug(`start komodod for ${state.coin}`);
@@ -37,6 +39,8 @@ export default function controlFactory(state: StateType) {
         .map(key => (args[key] ? `-${key}=${args[key]}` : null))
         .filter(v => v !== null);
       argsParam.push(`-ac_name=${this.getCoin()}`);
+      // silent mod
+      // argsParam.push('&');
 
       return new Promise(async (resolve, reject) => {
         // HOW TO DETECT IF PROCESS SPAWNED SUCCESSFULLY
@@ -71,7 +75,6 @@ export default function controlFactory(state: StateType) {
         }
 
         childProcess = null;
-        killProcess("komodod");
         resolve({
           ok: "done"
         });

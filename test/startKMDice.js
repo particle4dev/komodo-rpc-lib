@@ -27,8 +27,6 @@ const debug = require("debug")("kmdrpc:test:startkmdice");
     });
 
     // Step 3: wait in 30s
-    const isReady = await komodod.isReady();
-    debug(`isReady = ${JSON.stringify(isReady)}`);
     const waitUntilReady = await komodod.waitUntilReady();
     debug(`waitUntilReady = ${JSON.stringify(waitUntilReady)}`);
 
