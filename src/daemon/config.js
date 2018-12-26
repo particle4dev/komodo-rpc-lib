@@ -1,5 +1,6 @@
 // @flow
 import fs from "fs";
+import path from "path";
 import readline from "readline";
 import { getKomodoPath } from "../paths";
 import type { StateType } from "./schema";
@@ -12,11 +13,10 @@ export default function configFactory(state: StateType) {
     getConfigFile(komodoPath: string = getKomodoPath()) {
       const coin = this.getCoin();
       return coin !== "komodo"
-        ? `${komodoPath}/${coin}/${coin}.conf`
-        : `${komodoPath}/komodo.conf`;
+        ? path.join(komodoPath, coin, `${coin}.conf`)
+        : path.join(komodoPath, `komodo.conf`);
     },
-    getConfig(): Promise<any> {
-      const config = this.getConfigFile();
+    getConfig(config: string = this.getConfigFile()): Promise<any> {
       return new Promise(async (resolve, reject) => {
         if (!fs.existsSync(config)) {
           reject(new Error(`not found config file in ${config}`));
@@ -26,10 +26,19 @@ export default function configFactory(state: StateType) {
             input: fs.createReadStream(config)
           });
 
-          lineReader.on("line", line => {
+          lineReader.on("line", l => {
+            const line = l.trim();
             if (line && line.length > 0) {
               const [v1, v2] = line.split("=");
-              result[v1] = v2;
+              // is array
+              if (result[v1] && result[v1].push) {
+                result[v1].push(v2);
+              } else if (result[v1]) {
+                const tq = result[v1];
+                result[v1] = [tq, v2];
+              } else {
+                result[v1] = v2;
+              }
             }
           });
 
