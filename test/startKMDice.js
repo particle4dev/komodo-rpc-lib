@@ -22,16 +22,8 @@ const debug = require("debug")("kmdrpc:test:startkmdice");
 
     // Step 2: start the chain
     const komodod = await api.startDaemon(coin);
-    const childProcess = await komodod.start({
+    await komodod.start({
       args
-    });
-
-    // add event via childProcess
-    childProcess.on("exit", (code, signal) => {
-      debug(`child process terminated due to receipt of signal ${signal}`);
-      setTimeout(() => {
-        process.exit(0);
-      }, 2000);
     });
 
     // Step 3: wait in 30s
@@ -45,6 +37,10 @@ const debug = require("debug")("kmdrpc:test:startkmdice");
       const rs = await komodod.stop();
       debug(`rs.ok === done = ${rs.ok === "done"}`);
     }
+
+    setTimeout(() => {
+      process.exit(0);
+    }, 2000);
   } catch (err) {
     debug(JSON.stringify(err));
     setTimeout(() => {
