@@ -1,0 +1,10 @@
+// import rpcFactory from "../stop";
+
+// describe("src/rpc/stop", () => {
+//   test("rpcFactory", () => {
+//     const d = rpcFactory();
+//     expect(typeof d.rpc).toBe("function");
+//     expect(typeof d.getInfo).toBe("function");
+//     expect(typeof d.stop).toBe("function");
+//   });
+// });
