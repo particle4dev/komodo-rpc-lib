@@ -53,9 +53,6 @@ export default function configFactory(state: StateType) {
     },
     getCoin() {
       return state.coin;
-    },
-    getKomodoDir() {
-      throw new Error("not implement yet");
     }
   };
 }
