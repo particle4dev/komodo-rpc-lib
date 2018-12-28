@@ -1,5 +1,6 @@
 // @flow
 
+import fs from "fs";
 import split2 from "split2";
 import { spawn } from "child_process";
 import { getKomodod } from "../paths";
@@ -18,7 +19,10 @@ type ParamsType = {
 
 type StartType = {
   komodod?: string,
-  args: ParamsType
+  logs?: boolean,
+  force?: boolean,
+  args: ParamsType,
+  ignore: boolean
 };
 
 type StopType = {
@@ -48,9 +52,11 @@ export default function controlFactory(state: StateType) {
         // HOW TO DETECT IF PROCESS SPAWNED SUCCESSFULLY
         // https://github.com/nodejs/help/issues/1191
         //
-        await this.stop({
-          force: true
-        });
+        if (config.force) {
+          await this.stop({
+            force: true
+          });
+        }
         // https://github.com/facebook/flow/issues/740
         // $FlowIgnore: suppressing this error
         childProcess = spawn(komododFile, argsParam);
@@ -58,11 +64,30 @@ export default function controlFactory(state: StateType) {
           debug(error.message);
           reject(error);
         });
+
+        const logStream = fs.createWriteStream(this.getLogFile(), {
+          flags: "w"
+        });
+        const errorLogStream = fs.createWriteStream(this.getErrorLogFile(), {
+          flags: "w"
+        });
+
         childProcess.stdout.setEncoding("utf8");
-        childProcess.stdout.pipe(split2()).on("data", data => debug(data));
+        childProcess.stdout
+          .pipe(split2())
+          .on("data", data => debug(`LOG: ${data}`));
+        if (config.logs) {
+          childProcess.stdout.pipe(logStream);
+        }
 
         childProcess.stderr.setEncoding("utf8");
-        childProcess.stderr.pipe(split2()).on("data", data => debug(data));
+        childProcess.stderr
+          .pipe(split2())
+          .on("data", data => debug(`ERROR: ${data}`));
+        if (config.logs) {
+          childProcess.stderr.pipe(errorLogStream);
+        }
+
         if (typeof childProcess.pid === "number") {
           resolve(childProcess);
         }

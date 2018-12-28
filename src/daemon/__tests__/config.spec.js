@@ -17,6 +17,9 @@ describe("src/daemon/config", () => {
     expect(config.getLogFile()).toBe(
       path.join(config.getApplicationPath(), "KMDICE.log")
     );
+    expect(config.getErrorLogFile()).toBe(
+      path.join(config.getApplicationPath(), "KMDICE_error.log")
+    );
     expect(config.getCoin()).toBe("KMDICE");
     expect(config.getApplicationName()).toBe("Agama");
     expect(config.getConfigFile(dir)).toBe(`${dir}/KMDICE/KMDICE.conf`);

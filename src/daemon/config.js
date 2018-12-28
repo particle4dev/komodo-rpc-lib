@@ -60,6 +60,15 @@ export default function configFactory(state: StateType) {
     // https://github.com/KomodoPlatform/Agama/blob/master/routes/api/daemonControl.js#L224
     getLogFile() {
       return path.join(this.getApplicationPath(), `${state.coin}.log`);
+    },
+    getErrorLogFile() {
+      return path.join(this.getApplicationPath(), `${state.coin}_error.log`);
+    },
+    getLog() {
+      throw new Error("not implement yet");
+    },
+    getErrorLog() {
+      throw new Error("not implement yet");
     }
   };
 }

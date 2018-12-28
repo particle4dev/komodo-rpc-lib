@@ -9,10 +9,12 @@
 
 #### Table of Contents
 
--   [KomodoRPC](#komodorpc)
+-   [debug](#debug)
     -   [Parameters](#parameters)
+-   [getLastLines](#getlastlines)
+    -   [Parameters](#parameters-1)
 
-### KomodoRPC
+### debug
 
 This function says hello.
 
@@ -21,3 +23,15 @@ This function says hello.
 -   `name`  Some name to say hello for.
 
 Returns **any** The hello.
+
+### getLastLines
+
+Read in the last `n` lines of a file
+
+#### Parameters
+
+-   `input_file_path` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** file (direct or relative path to file.)
+-   `maxLineCount` **int** max number of lines to read in.
+-   `encoding` **encoding** specifies the character encoding to be used, or 'buffer'. defaults to 'utf8'.
+
+Returns **[promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)** a promis resolved with the lines or rejected with an error.
