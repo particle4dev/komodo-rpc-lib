@@ -1,5 +1,10 @@
 // @flow
 import fs from "fs";
+import util from "util";
+
+const fread = util.promisify(fs.read);
+const fstat = util.promisify(fs.stat);
+const fopen = util.promisify(fs.open);
 
 /**
  * Read in the last `n` lines of a file
@@ -17,13 +22,64 @@ type GetLastLines = {
   encoding?: string
 };
 
+const NEW_LINE_CHARACTERS = ["\n", "\r"];
+
+const readPreviousChar = (stat, file, currentCharacterCount) =>
+  fread(
+    file,
+    Buffer.alloc(1),
+    0,
+    1,
+    stat.size - 1 - currentCharacterCount
+  ).then(bytesReadAndBuffer =>
+    String.fromCharCode(bytesReadAndBuffer.buffer[0])
+  );
+
 export default function getLastLines(config: GetLastLines): Promise<any> {
   return new Promise(async (resolve, reject) => {
-    // step 1: check if path exists
-    const { filePath } = config;
-    if (!fs.existsSync(filePath)) {
-      return reject(new Error("file does not exist"));
+    let file = null;
+    try {
+      // step 1: check if path exists
+      const { filePath, maxLineCount = 10, encoding = "utf8" } = config;
+      if (!fs.existsSync(filePath)) {
+        return reject(new Error("file does not exist"));
+      }
+      const stat = await fstat(filePath);
+      file = await fopen(filePath, "r");
+
+      let chars = 0;
+      let lineCount = 0;
+      let lines = "";
+      while (lines.length < stat.size && lineCount < maxLineCount) {
+        if (lines.length > stat.size) {
+          lines = lines.substring(lines.length - stat.size);
+        }
+        // eslint-disable-next-line no-await-in-loop
+        const nextCharacter = await readPreviousChar(stat, file, chars);
+        lines = nextCharacter + lines;
+        if (NEW_LINE_CHARACTERS.includes(nextCharacter) && lines.length > 1) {
+          lineCount += 1;
+        }
+        chars += 1;
+      }
+      if (lines.length > stat.size) {
+        lines = lines.substring(lines.length - stat.size);
+      }
+      if (NEW_LINE_CHARACTERS.includes(lines.substring(0, 1))) {
+        lines = lines.substring(1);
+      }
+      // $FlowIgnore: suppressing this error
+      if (file) fs.close(file);
+      if (encoding === "buffer") {
+        return resolve(Buffer.from(lines, "binary"));
+      }
+      // $FlowIgnore: suppressing this error
+      return resolve(Buffer.from(lines, "binary").toString(encoding));
+    } catch (err) {
+      // $FlowIgnore: suppressing this error
+      if (file) fs.close(file);
+
+      return reject(err);
     }
-    return resolve({});
   });
 }
