@@ -3,6 +3,7 @@ import readLastLines from "../readLastLines";
 
 describe("lib/readLastLines", () => {
   const numberedfilePath = path.join(__dirname, "./numbered");
+  const nonStandardfilePath = path.join(__dirname, "./non_standard_new_lines");
 
   it("return all lines when asked for more than the file has", async done => {
     try {
@@ -63,6 +64,20 @@ describe("lib/readLastLines", () => {
     } catch (err) {
       expect(err.message).toEqual("file does not exist");
       done();
+    }
+  });
+
+  it("should the new line characters used by the file, when using non standard new line characters", async done => {
+    try {
+      const lines = await readLastLines({
+        filePath: nonStandardfilePath,
+        maxLineCount: 30
+      });
+      const { length } = lines.split(/\n|\r/);
+      expect(length).toEqual(6);
+      done();
+    } catch (err) {
+      done.fail(err);
     }
   });
 });

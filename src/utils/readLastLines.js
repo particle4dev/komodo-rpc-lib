@@ -50,10 +50,7 @@ export default function getLastLines(config: GetLastLines): Promise<any> {
       let chars = 0;
       let lineCount = 0;
       let lines = "";
-      while (lines.length < stat.size && lineCount < maxLineCount) {
-        if (lines.length > stat.size) {
-          lines = lines.substring(lines.length - stat.size);
-        }
+      do {
         // eslint-disable-next-line no-await-in-loop
         const nextCharacter = await readPreviousChar(stat, file, chars);
         lines = nextCharacter + lines;
@@ -61,7 +58,7 @@ export default function getLastLines(config: GetLastLines): Promise<any> {
           lineCount += 1;
         }
         chars += 1;
-      }
+      } while (lines.length < stat.size && lineCount < maxLineCount);
       if (lines.length > stat.size) {
         lines = lines.substring(lines.length - stat.size);
       }
