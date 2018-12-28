@@ -1,7 +1,7 @@
 // @flow
 
 import split2 from "split2";
-import { execFile } from "child_process";
+import { spawn } from "child_process";
 import { getKomodod } from "../paths";
 import { stop } from "../rpc/stop";
 import type { StateType } from "./schema";
@@ -53,9 +53,7 @@ export default function controlFactory(state: StateType) {
         });
         // https://github.com/facebook/flow/issues/740
         // $FlowIgnore: suppressing this error
-        childProcess = execFile(komododFile, argsParam, {
-          maxBuffer: 1024 * 1000000 // 1000 mb
-        });
+        childProcess = spawn(komododFile, argsParam);
         childProcess.on("error", error => {
           debug(error.message);
           reject(error);
