@@ -1,6 +1,9 @@
+import d from "debug";
 import { KomodoRPC } from "../src";
 
-const debug = require("debug")("kmdrpc:test:startChainWithLog");
+const logs = "kmdrpc:test";
+const debug = d(`${logs}:startChainWithLog`);
+d.enable(`${logs}:*`);
 
 function wait(delay) {
   return new Promise(resovle => {
@@ -28,9 +31,16 @@ function wait(delay) {
 
     // Step 2: start the chain
     const komodod = await api.startDaemon(coin);
-    await komodod.start({
+    const childProcess = await komodod.start({
       logs: true,
       args
+    });
+
+    childProcess.on("exit", (code, signal) => {
+      debug(`child process terminated due to receipt of signal ${signal}`);
+      setTimeout(() => {
+        process.exit(0);
+      }, 2000);
     });
 
     // Step 3: wait until ready
@@ -39,17 +49,19 @@ function wait(delay) {
 
     await wait(30 * 1000);
 
+    const getLog = await komodod.getLog();
+    debug(`getLog = ${getLog}`);
+
+    const getErrorLog = await komodod.getErrorLog();
+    debug(`getErrorLog = ${getErrorLog}`);
+
     // Step 4: stop daemon
     if (komodod.isRunning() === true) {
       const rs = await komodod.stop();
       debug(`rs.ok === done = ${rs.ok === "done"}`);
     }
-
-    setTimeout(() => {
-      process.exit(0);
-    }, 2000);
   } catch (err) {
-    debug(JSON.stringify(err));
+    debug(err.message);
     setTimeout(() => {
       process.exit(1);
     }, 2000);

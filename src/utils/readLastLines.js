@@ -2,6 +2,8 @@
 import fs from "fs";
 import util from "util";
 
+const debug = require("debug")("kmdrpc:utils:getLastLines");
+
 const fread = util.promisify(fs.read);
 const fstat = util.promisify(fs.stat);
 const fopen = util.promisify(fs.open);
@@ -41,6 +43,7 @@ export default function getLastLines(config: GetLastLines): Promise<any> {
     try {
       // step 1: check if path exists
       const { filePath, maxLineCount, encoding = "utf8" } = config;
+      debug(`read ${filePath} file`);
       if (!fs.existsSync(filePath)) {
         return reject(new Error("file does not exist"));
       }
@@ -75,7 +78,7 @@ export default function getLastLines(config: GetLastLines): Promise<any> {
         lines = lines.substring(1);
       }
       // $FlowIgnore: suppressing this error
-      if (file) fs.close(file);
+      if (file) fs.closeSync(file);
       if (encoding === "buffer") {
         return resolve(Buffer.from(lines, "binary"));
       }
@@ -83,7 +86,7 @@ export default function getLastLines(config: GetLastLines): Promise<any> {
       return resolve(Buffer.from(lines, "binary").toString(encoding));
     } catch (err) {
       // $FlowIgnore: suppressing this error
-      if (file) fs.close(file);
+      if (file) fs.closeSync(file);
 
       return reject(err);
     }

@@ -2,6 +2,7 @@
 import fs from "fs";
 import path from "path";
 import readline from "readline";
+import readLastLines from "../utils/readLastLines";
 import { getKomodoPath, getApplicationPath } from "../paths";
 import type { StateType } from "./schema";
 
@@ -64,11 +65,17 @@ export default function configFactory(state: StateType) {
     getErrorLogFile() {
       return path.join(this.getApplicationPath(), `${state.coin}_error.log`);
     },
-    getLog() {
-      throw new Error("not implement yet");
+    getLog(maxLineCount?: number): Promise<any> {
+      return readLastLines({
+        filePath: this.getLogFile(),
+        maxLineCount
+      });
     },
-    getErrorLog() {
-      throw new Error("not implement yet");
+    getErrorLog(maxLineCount?: number): Promise<any> {
+      return readLastLines({
+        filePath: this.getErrorLogFile(),
+        maxLineCount
+      });
     }
   };
 }
