@@ -20,6 +20,20 @@ describe("lib/readLastLines", () => {
     }
   });
 
+  it("return all lines when maxLineCount is not set", async done => {
+    try {
+      const lines = await readLastLines({
+        filePath: numberedfilePath
+      });
+      const { length } = lines.split(/\n|\r/);
+      expect(length).toEqual(10);
+
+      done();
+    } catch (err) {
+      done.fail(err);
+    }
+  });
+
   it("return last line when asked for 1", async done => {
     try {
       const lines = await readLastLines({

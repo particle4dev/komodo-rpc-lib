@@ -40,7 +40,7 @@ export default function getLastLines(config: GetLastLines): Promise<any> {
     let file = null;
     try {
       // step 1: check if path exists
-      const { filePath, maxLineCount = 10, encoding = "utf8" } = config;
+      const { filePath, maxLineCount, encoding = "utf8" } = config;
       if (!fs.existsSync(filePath)) {
         return reject(new Error("file does not exist"));
       }
@@ -50,7 +50,18 @@ export default function getLastLines(config: GetLastLines): Promise<any> {
       let chars = 0;
       let lineCount = 0;
       let lines = "";
-      do {
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        if (lines.length > stat.size) {
+          lines = lines.substring(lines.length - stat.size);
+        }
+        if (
+          lines.length >= stat.size ||
+          (maxLineCount && lineCount >= maxLineCount)
+        ) {
+          break;
+        }
+
         // eslint-disable-next-line no-await-in-loop
         const nextCharacter = await readPreviousChar(stat, file, chars);
         lines = nextCharacter + lines;
@@ -58,10 +69,8 @@ export default function getLastLines(config: GetLastLines): Promise<any> {
           lineCount += 1;
         }
         chars += 1;
-      } while (lines.length < stat.size && lineCount < maxLineCount);
-      if (lines.length > stat.size) {
-        lines = lines.substring(lines.length - stat.size);
       }
+
       if (NEW_LINE_CHARACTERS.includes(lines.substring(0, 1))) {
         lines = lines.substring(1);
       }
