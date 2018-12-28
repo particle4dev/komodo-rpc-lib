@@ -48,11 +48,12 @@ const debug = require("debug")("kmdrpc:test:startMutilChain");
 
     // Step 2: start the chain
     const kmdiced = await api.startDaemon(kmdice);
-    const coquid = await api.startDaemon(coqui);
 
     await kmdiced.start({
       args: kmdiceargs
     });
+
+    const coquid = await api.startDaemon(coqui);
 
     await coquid.start({
       args: coquiargs
@@ -68,6 +69,12 @@ const debug = require("debug")("kmdrpc:test:startMutilChain");
 
     const coquidReady = await coquid.waitUntilReady();
     debug(`coquidReady = ${JSON.stringify(coquidReady)}`);
+
+    const infoKmdiced = await kmdiced.getInfo();
+    debug(`infoKmdiced = ${infoKmdiced}`);
+
+    const infoCoquid = await coquid.getInfo();
+    debug(`infoCoquid = ${infoCoquid}`);
 
     // Step 4: stop daemon
     let rs = null;

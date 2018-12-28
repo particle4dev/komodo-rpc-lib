@@ -68,8 +68,10 @@ const debug = require("debug")("kmdrpc:test:callRPC");
 
     // Step 5: stop daemon
     if (komodod.isRunning() === true) {
-      const rs = await komodod.stop();
-      debug(`rs.ok === done = ${rs.ok === "done"}`);
+      const rs = await api.stop({
+        coin
+      });
+      debug(`rs = ${rs}`);
     }
   } catch (err) {
     debug(JSON.stringify(err));
