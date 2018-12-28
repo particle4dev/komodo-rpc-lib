@@ -3,7 +3,7 @@
 import split2 from "split2";
 import { execFile } from "child_process";
 import { getKomodod } from "../paths";
-import killProcess from "./killprocess";
+import { stop } from "../rpc/stop";
 import type { StateType } from "./schema";
 
 const debug = require("debug")("kmdrpc:daemon:control");
@@ -21,11 +21,13 @@ type StartType = {
   args: ParamsType
 };
 
+type StopType = {
+  force: boolean
+};
+
 export default function controlFactory(state: StateType) {
   debug(`setup control for ${state.coin}`);
   let childProcess = null;
-  // NOTE: kill all komodod before start
-  killProcess("komodod");
   return {
     start(config: StartType): Promise<any> {
       debug(`start komodod for ${state.coin}`);
@@ -46,7 +48,9 @@ export default function controlFactory(state: StateType) {
         // HOW TO DETECT IF PROCESS SPAWNED SUCCESSFULLY
         // https://github.com/nodejs/help/issues/1191
         //
-        await this.stop();
+        await this.stop({
+          force: true
+        });
         // https://github.com/facebook/flow/issues/740
         // $FlowIgnore: suppressing this error
         childProcess = execFile(komododFile, argsParam, {
@@ -66,7 +70,11 @@ export default function controlFactory(state: StateType) {
         }
       });
     },
-    stop(): Promise<any> {
+    stop(
+      config: StopType = {
+        force: false
+      }
+    ): Promise<any> {
       debug(`stop komodod for ${state.coin}`);
       // return new Promise((resolve, reject) => {
       return new Promise(resolve => {
@@ -75,6 +83,11 @@ export default function controlFactory(state: StateType) {
         }
 
         childProcess = null;
+        if (config.force) {
+          stop({
+            coin: state.coin
+          });
+        }
         resolve({
           ok: "done"
         });
