@@ -20,7 +20,7 @@
     "lint": "eslint .",
     "lint-fix": "eslint --fix .",
     "flow": "flow check",
-    "docs": "documentation readme src --section=API",
+    "docs": "./node_modules/.bin/documentation build -f md src > docs/NODE_API.md",
     "postdocs": "git add README.md",
     "clean": "rimraf dist",
     "flowbuild": "flow-copy-source src dist",
