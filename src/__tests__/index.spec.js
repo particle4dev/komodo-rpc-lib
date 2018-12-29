@@ -1,4 +1,4 @@
-import { KomodoRPC } from "../index";
+import KomodoRPC from "../index";
 
 test("src/index", () => {
   const d = KomodoRPC();

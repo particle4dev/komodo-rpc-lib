@@ -11,6 +11,6 @@ import rpcFactory from "./rpc";
 const debug = require("debug")("kmdrpc:index");
 
 export default function KomodoRPC(applicationName: string) {
-  debug(`creating ${applicationName} aapplication`);
+  debug(`creating ${applicationName} application`);
   return Object.assign({}, daemonFactory(applicationName), rpcFactory());
 }
