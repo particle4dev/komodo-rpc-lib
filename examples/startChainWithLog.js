@@ -32,12 +32,14 @@ function wait(delay) {
     // Step 2: start the chain
     debug(`start ${coin} chain`);
     const komodod = await api.startDaemon(coin);
-    const childProcess = await komodod.start({
+    const cpResult = await komodod.start({
       logs: true,
       args
     });
 
-    childProcess.on("exit", (code, signal) => {
+    debug(`cpResult = ${JSON.stringify(cpResult)}`);
+
+    komodod.on("exit", (code, signal) => {
       debug(`child process terminated due to receipt of signal ${signal}`);
       setTimeout(() => {
         process.exit(0);

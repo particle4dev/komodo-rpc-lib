@@ -20,9 +20,8 @@ type ParamsType = {
 type StartType = {
   komodod?: string,
   logs?: boolean,
-  force?: boolean,
-  args: ParamsType,
-  ignore: boolean
+  ignore?: boolean,
+  args: ParamsType
 };
 
 type StopType = {
@@ -52,7 +51,10 @@ export default function controlFactory(state: StateType) {
         // HOW TO DETECT IF PROCESS SPAWNED SUCCESSFULLY
         // https://github.com/nodejs/help/issues/1191
         //
-        if (config.force) {
+        const isReady = await this.isReady();
+
+        // console.log(isReady, "isReady");
+        if (!config.ignore && isReady.ok === "done") {
           await this.stop({
             force: true
           });
@@ -89,7 +91,9 @@ export default function controlFactory(state: StateType) {
         }
 
         if (typeof childProcess.pid === "number") {
-          resolve(childProcess);
+          resolve({
+            ok: "done"
+          });
         }
       });
     },

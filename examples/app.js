@@ -35,14 +35,11 @@ const debug = require("debug")("kmdrpc:test");
 
     debug(`komodod === samekomodod = ${samekomodod === komodod}`);
 
-    const childProcess = await komodod.start({
+    const cpResult = await komodod.start({
       args
     });
 
-    // add event via childProcess
-    childProcess.on("exit", (code, signal) => {
-      debug(`child process terminated due to receipt of signal ${signal}`);
-    });
+    debug(`cpResult = ${JSON.stringify(cpResult)}`);
 
     // add event via darmon
     komodod.on("exit", (code, signal) => {

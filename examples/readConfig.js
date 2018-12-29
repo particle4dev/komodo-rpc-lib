@@ -24,12 +24,14 @@ const debug = require("debug")("kmdrpc:test:readConfig");
     // Step 2: start the chain
     const komodod = await api.startDaemon(coin);
 
-    const childProcess = await komodod.start({
+    const cpResult = await komodod.start({
       args
     });
 
+    debug(`cpResult = ${JSON.stringify(cpResult)}`);
+
     // add event via childProcess
-    childProcess.on("exit", (code, signal) => {
+    komodod.on("exit", (code, signal) => {
       debug(`child process terminated due to receipt of signal ${signal}`);
       setTimeout(() => {
         process.exit(0);
