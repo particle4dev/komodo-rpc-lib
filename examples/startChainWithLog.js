@@ -1,5 +1,5 @@
 import d from "debug";
-import { KomodoRPC } from "../src";
+import KomodoRPC from "../src";
 
 const logs = "kmdrpc:test";
 const debug = d(`${logs}:startChainWithLog`);

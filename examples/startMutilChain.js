@@ -1,4 +1,4 @@
-import { KomodoRPC } from "../src";
+import KomodoRPC from "../src";
 
 const debug = require("debug")("kmdrpc:test:startMutilChain");
 
