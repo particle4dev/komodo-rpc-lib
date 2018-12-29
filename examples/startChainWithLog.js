@@ -30,6 +30,7 @@ function wait(delay) {
     const api = KomodoRPC(application);
 
     // Step 2: start the chain
+    debug(`start ${coin} chain`);
     const komodod = await api.startDaemon(coin);
     const childProcess = await komodod.start({
       logs: true,
@@ -44,9 +45,11 @@ function wait(delay) {
     });
 
     // Step 3: wait until ready
+    debug(`waiting until ${coin} ready`);
     const waitUntilReady = await komodod.waitUntilReady();
     debug(`waitUntilReady = ${JSON.stringify(waitUntilReady)}`);
 
+    debug(`waiting in 30s`);
     await wait(30 * 1000);
 
     const getLog = await komodod.getLog();
