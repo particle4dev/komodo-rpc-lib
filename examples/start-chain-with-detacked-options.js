@@ -1,6 +1,6 @@
 import KomodoRPC from "../src";
 
-const debug = require("debug")("kmdrpc:test:startkmdice");
+const debug = require("debug")("kmdrpc:test:start-chain-with-detacked-options");
 
 (async () => {
   const application = "Agama";
@@ -40,7 +40,7 @@ const debug = require("debug")("kmdrpc:test:startkmdice");
       process.exit(0);
     }, 2000);
   } catch (err) {
-    debug(JSON.stringify(err));
+    debug(err.message);
     setTimeout(() => {
       process.exit(1);
     }, 2000);

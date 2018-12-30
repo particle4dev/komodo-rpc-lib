@@ -47,53 +47,67 @@ export default function controlFactory(state: StateType) {
       // silent mod
       // argsParam.push('&');
 
+      // eslint-disable-next-line consistent-return
       return new Promise(async (resolve, reject) => {
-        // HOW TO DETECT IF PROCESS SPAWNED SUCCESSFULLY
-        // https://github.com/nodejs/help/issues/1191
-        //
-        const isReady = await this.isReady();
+        try {
+          // HOW TO DETECT IF PROCESS SPAWNED SUCCESSFULLY
+          // https://github.com/nodejs/help/issues/1191
+          // $FlowIgnore: suppressing this error
+          if (childProcess && !childProcess.killed) {
+            debug("child process is really started");
+            return resolve({
+              ok: "done"
+            });
+          }
 
-        // console.log(isReady, "isReady");
-        if (!config.ignore && isReady.ok === "done") {
-          await this.stop({
-            force: true
+          // https://github.com/facebook/flow/issues/740
+          // $FlowIgnore: suppressing this error
+          childProcess = spawn(komododFile, argsParam);
+          childProcess.on("error", error => {
+            debug(error.message);
+            reject(error);
           });
-        }
-        // https://github.com/facebook/flow/issues/740
-        // $FlowIgnore: suppressing this error
-        childProcess = spawn(komododFile, argsParam);
-        childProcess.on("error", error => {
-          debug(error.message);
-          reject(error);
-        });
 
-        const logStream = fs.createWriteStream(this.getLogFile(), {
-          flags: "w"
-        });
-        const errorLogStream = fs.createWriteStream(this.getErrorLogFile(), {
-          flags: "w"
-        });
+          childProcess.stdout.setEncoding("utf8");
+          childProcess.stdout
+            .pipe(split2())
+            .on("data", data => debug(`LOG: ${data}`));
+          if (config.logs) {
+            const logStream = fs.createWriteStream(this.getLogFile(), {
+              flags: "w"
+            });
+            childProcess.stdout.pipe(logStream);
+          }
 
-        childProcess.stdout.setEncoding("utf8");
-        childProcess.stdout
-          .pipe(split2())
-          .on("data", data => debug(`LOG: ${data}`));
-        if (config.logs) {
-          childProcess.stdout.pipe(logStream);
-        }
+          childProcess.stderr.setEncoding("utf8");
+          childProcess.stderr
+            .pipe(split2())
+            .on("data", data => debug(`ERROR: ${data}`));
+          if (config.logs) {
+            const errorLogStream = fs.createWriteStream(
+              this.getErrorLogFile(),
+              {
+                flags: "w"
+              }
+            );
+            childProcess.stderr.pipe(errorLogStream);
+          }
 
-        childProcess.stderr.setEncoding("utf8");
-        childProcess.stderr
-          .pipe(split2())
-          .on("data", data => debug(`ERROR: ${data}`));
-        if (config.logs) {
-          childProcess.stderr.pipe(errorLogStream);
-        }
-
-        if (typeof childProcess.pid === "number") {
-          resolve({
-            ok: "done"
+          childProcess.on("exit", (code, signal) => {
+            debug(
+              `child process terminated due to receipt of signal ${signal} and code ${code}`
+            );
+            childProcess = null;
           });
+
+          if (typeof childProcess.pid === "number") {
+            resolve({
+              ok: "done"
+            });
+          }
+        } catch (err) {
+          debug(err.message);
+          reject(err);
         }
       });
     },
@@ -153,7 +167,7 @@ export default function controlFactory(state: StateType) {
 
         setTimeout(() => {
           clearInterval(interval);
-          reject(new Error("Giving up trying to connect to marketmaker"));
+          reject(new Error("Giving up trying to connect to komodod"));
         }, time);
       });
     },
