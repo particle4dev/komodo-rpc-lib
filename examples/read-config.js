@@ -1,6 +1,6 @@
 import KomodoRPC from "../src";
 
-const debug = require("debug")("kmdrpc:test:readConfig");
+const debug = require("debug")("kmdrpc:test:read-config");
 
 (async () => {
   const application = "Agama";
