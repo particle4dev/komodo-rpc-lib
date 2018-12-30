@@ -1,4 +1,6 @@
+import path from "path";
 import configFactory from "../config";
+import { getApplicationPath } from "../../paths";
 
 describe("src/daemon/config", () => {
   const dir = __dirname;
@@ -11,6 +13,13 @@ describe("src/daemon/config", () => {
 
     const config = configFactory(state);
 
+    expect(config.getApplicationPath()).toBe(getApplicationPath("Agama"));
+    expect(config.getLogFile()).toBe(
+      path.join(config.getApplicationPath(), "KMDICE.log")
+    );
+    expect(config.getErrorLogFile()).toBe(
+      path.join(config.getApplicationPath(), "KMDICE_error.log")
+    );
     expect(config.getCoin()).toBe("KMDICE");
     expect(config.getApplicationName()).toBe("Agama");
     expect(config.getConfigFile(dir)).toBe(`${dir}/KMDICE/KMDICE.conf`);

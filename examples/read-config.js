@@ -1,21 +1,18 @@
-import { KomodoRPC } from "../src";
+/**
+ * Use KomodoRPC to start KMDICE chain and read its config
+ * How to run:
+ *
+ *     $ npm run devtest -- examples/read-config.js
+ */
 
-const debug = require("debug")("kmdrpc:test:readConfig");
+import KomodoRPC from "../src";
+import { kmdice } from "./config";
+
+const debug = require("debug")("kmdrpc:test:read-config");
 
 (async () => {
   const application = "Agama";
-  const coin = "KMDICE";
-  const args = {
-    pubkey:
-      "035178457d4bcab8e221ddbc2cf3814bf704bb261be50f8f0e31b5fbf55cd77310",
-    ac_supply: 10500000,
-    ac_reward: 2500000000,
-    ac_halving: 210000,
-    ac_cc: 2,
-    addressindex: 1,
-    spentindex: 1,
-    addnode: "144.76.217.232"
-  };
+  const { coin, args } = kmdice;
 
   try {
     // Step 1: create application
@@ -24,12 +21,14 @@ const debug = require("debug")("kmdrpc:test:readConfig");
     // Step 2: start the chain
     const komodod = await api.startDaemon(coin);
 
-    const childProcess = await komodod.start({
+    const cpResult = await komodod.start({
       args
     });
 
+    debug(`cpResult = ${JSON.stringify(cpResult)}`);
+
     // add event via childProcess
-    childProcess.on("exit", (code, signal) => {
+    komodod.on("exit", (code, signal) => {
       debug(`child process terminated due to receipt of signal ${signal}`);
       setTimeout(() => {
         process.exit(0);
@@ -46,7 +45,7 @@ const debug = require("debug")("kmdrpc:test:readConfig");
       debug(`rs.ok === done = ${rs.ok === "done"}`);
     }
   } catch (err) {
-    debug(JSON.stringify(err));
+    debug(err.message);
     setTimeout(() => {
       process.exit(1);
     }, 2000);

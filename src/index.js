@@ -8,14 +8,9 @@ import rpcFactory from "./rpc";
  * @returns The hello.
  */
 
-// const sayHello = (name: string = "Haz"): string => `Hello, ${name}!`;
-
 const debug = require("debug")("kmdrpc:index");
 
-export function KomodoRPC(applicationName: string) {
+export default function KomodoRPC(applicationName: string) {
+  debug(`creating ${applicationName} application`);
   return Object.assign({}, daemonFactory(applicationName), rpcFactory());
-}
-
-export default function setup() {
-  debug("setup KomodoRPC");
 }

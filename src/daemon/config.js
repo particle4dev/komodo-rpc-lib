@@ -2,7 +2,8 @@
 import fs from "fs";
 import path from "path";
 import readline from "readline";
-import { getKomodoPath } from "../paths";
+import readLastLines from "../utils/readLastLines";
+import { getKomodoPath, getApplicationPath } from "../paths";
 import type { StateType } from "./schema";
 
 const debug = require("debug")("kmdrpc:daemon:config");
@@ -54,8 +55,27 @@ export default function configFactory(state: StateType) {
     getCoin() {
       return state.coin;
     },
-    getKomodoDir() {
-      throw new Error("not implement yet");
+    getApplicationPath() {
+      return getApplicationPath(this.getApplicationName());
+    },
+    // https://github.com/KomodoPlatform/Agama/blob/master/routes/api/daemonControl.js#L224
+    getLogFile() {
+      return path.join(this.getApplicationPath(), `${state.coin}.log`);
+    },
+    getErrorLogFile() {
+      return path.join(this.getApplicationPath(), `${state.coin}_error.log`);
+    },
+    getLog(maxLineCount?: number): Promise<any> {
+      return readLastLines({
+        filePath: this.getLogFile(),
+        maxLineCount
+      });
+    },
+    getErrorLog(maxLineCount?: number): Promise<any> {
+      return readLastLines({
+        filePath: this.getErrorLogFile(),
+        maxLineCount
+      });
     }
   };
 }

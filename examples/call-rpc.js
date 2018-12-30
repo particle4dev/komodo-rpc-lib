@@ -1,21 +1,18 @@
-import { KomodoRPC } from "../src";
+/**
+ * Use KomodoRPC to start KMDICE chain and call rpc
+ * How to run:
+ *
+ *     $ npm run devtest -- examples/call-rpc.js
+ */
 
-const debug = require("debug")("kmdrpc:test:callRPC");
+import KomodoRPC from "../src";
+import { kmdice } from "./config";
+
+const debug = require("debug")("kmdrpc:test:call-rpc");
 
 (async () => {
   const application = "Agama";
-  const coin = "KMDICE";
-  const args = {
-    pubkey:
-      "035178457d4bcab8e221ddbc2cf3814bf704bb261be50f8f0e31b5fbf55cd77310",
-    ac_supply: 10500000,
-    ac_reward: 2500000000,
-    ac_halving: 210000,
-    ac_cc: 2,
-    addressindex: 1,
-    spentindex: 1,
-    addnode: "144.76.217.232"
-  };
+  const { coin, args } = kmdice;
   try {
     // Step 1: create application
     const api = KomodoRPC(application);
@@ -23,12 +20,14 @@ const debug = require("debug")("kmdrpc:test:callRPC");
     // Step 2: start the chain
     const komodod = await api.startDaemon(coin);
 
-    const childProcess = await komodod.start({
+    const cpResult = await komodod.start({
       args
     });
 
+    debug(`cpResult = ${JSON.stringify(cpResult)}`);
+
     // add event via darmon
-    childProcess.on("exit", (code, signal) => {
+    komodod.on("exit", (code, signal) => {
       debug(`child process terminated due to receipt of signal ${signal}`);
       setTimeout(() => {
         process.exit(0);
@@ -50,8 +49,7 @@ const debug = require("debug")("kmdrpc:test:callRPC");
     });
     debug(`getnewaddress = ${getnewaddress}`);
 
-    const getaddressbalance = await api.rpc({
-      coin,
+    const getaddressbalance = await komodod.rpc({
       action: "getaddressbalance",
       args: {
         addresses: ["RLC7XBJYemEeJxCcocj2vjDTcyuS5uFdJw"]
@@ -66,6 +64,12 @@ const debug = require("debug")("kmdrpc:test:callRPC");
     });
     debug(`validateaddress = ${validateaddress}`);
 
+    // const unavailable = await api.rpc({
+    //   coin,
+    //   action: "unavailable"
+    // });
+    // debug(`unavailable = ${unavailable}`);
+
     // Step 5: stop daemon
     if (komodod.isRunning() === true) {
       const rs = await api.stop({
@@ -74,7 +78,7 @@ const debug = require("debug")("kmdrpc:test:callRPC");
       debug(`rs = ${rs}`);
     }
   } catch (err) {
-    debug(JSON.stringify(err));
+    debug(err.message);
     setTimeout(() => {
       process.exit(1);
     }, 2000);

@@ -1,126 +1,112 @@
-import { KomodoRPC } from "../src";
+/**
+ * Use KomodoRPC to start KMDICE chain and call rpc
+ * How to run:
+ *
+ *     $ npm run devtest -- examples/app.js
+ */
+import d from "debug";
+import KomodoRPC from "../src";
+import { kmdice } from "./config";
 
-const debug = require("debug")("kmdrpc:test");
+const logs = "kmdrpc:test";
+const debug = d(`${logs}:app`);
+d.enable(`${logs}:*`);
+
+function wait(delay) {
+  return new Promise(resovle => {
+    setTimeout(resovle, delay);
+  });
+}
 
 (async () => {
   const application = "Agama";
-  const coin = "KMDICE";
-  const args = {
-    pubkey:
-      "035178457d4bcab8e221ddbc2cf3814bf704bb261be50f8f0e31b5fbf55cd77310",
-    ac_supply: 10500000,
-    ac_reward: 2500000000,
-    ac_halving: 210000,
-    ac_cc: 2,
-    addressindex: 1,
-    spentindex: 1,
-    addnode: "144.76.217.232"
-  };
-  // komodod -pubkey=c88a033b587244cd501e90709620c3ec58d9c3886e33c2e1db909d0451aa5833 -ac_name=COQUI -ac_supply=72000000 -ac_ccactivate=200000 -addnode=78.47.196.146 $1 &
-  // const coin = "COQUI";
-  // const args = {
-  //   pubkey:
-  //     "c88a033b587244cd501e90709620c3ec58d9c3886e33c2e1db909d0451aa5833",
-  //   ac_supply: 72000000,
-  //   ac_ccactivate: 200000,
-  //   addnode: "78.47.196.146 "
-  // };
+  const { coin, args } = kmdice;
+
   try {
     // Step 1: create application
-    const api = KomodoRPC(application);
+    debug("Step 1: create application");
+    const app1 = KomodoRPC(application);
+    const app2 = KomodoRPC(application);
 
-    // Step 2: start the chain
-    const komodod = await api.startDaemon(coin);
-    const samekomodod = await api.startDaemon(coin);
+    // Step 2: start the chain with api1
+    debug("Step 2: start the chain with api1");
+    const komodod1 = await app1.startDaemon(coin);
 
-    debug(`komodod === samekomodod = ${samekomodod === komodod}`);
-
-    const childProcess = await komodod.start({
+    let startResult1 = await komodod1.start({
       args
     });
 
-    // add event via childProcess
-    childProcess.on("exit", (code, signal) => {
-      debug(`child process terminated due to receipt of signal ${signal}`);
+    debug(`startResult1 = ${JSON.stringify(startResult1)}`);
+
+    startResult1 = await komodod1.start({
+      args
     });
 
+    debug(`startResult1 = ${JSON.stringify(startResult1)}`);
+
     // add event via darmon
-    komodod.on("exit", (code, signal) => {
-      debug(`child process terminated due to receipt of signal ${signal}`);
+    komodod1.on("exit", (code, signal) => {
+      debug(`child process 1 terminated due to receipt of signal ${signal}`);
+    });
+
+    // Step 3: wait until api1 ready'
+    debug("Step 3: wait until api1 ready");
+    const isReady1 = await komodod1.isReady();
+    debug(`isReady1 = ${JSON.stringify(isReady1)}`);
+
+    const waitUntilReady1 = await komodod1.waitUntilReady();
+    debug(`waitUntilReady1 = ${JSON.stringify(waitUntilReady1)}`);
+
+    // Step 4: start the chain with app2 but it will be failed
+    debug("Step 4: start the chain with app2 but it will be failed");
+    const komodod2 = await app2.startDaemon(coin);
+    let startResult2 = await komodod2.start({
+      args
+    });
+    debug(`startResult2 = ${JSON.stringify(startResult2)}`);
+
+    // add event via darmon
+    komodod2.on("exit", (code, signal) => {
+      debug(`child process 2 terminated due to receipt of signal ${signal}`);
+    });
+
+    // Step 5: stop app1 daemon
+    debug(`Step 5: stop app1 daemon`);
+    debug(`wait in 15s`);
+    await wait(15 * 1000);
+
+    if (komodod1.isRunning() === true) {
+      const rs = await komodod1.stop();
+      debug(`rs.ok === done = ${rs.ok === "done"}`);
+    }
+
+    // Step 6: start daemon with komodod2
+    debug(`Step 6: start daemon with komodod2`);
+    debug(`komodod2.isRunning() === ${komodod2.isRunning()}`);
+    debug(`wait in 15s`);
+    await wait(15 * 1000);
+
+    startResult2 = await komodod2.start({
+      args
+    });
+    debug(`startResult2 = ${JSON.stringify(startResult2)}`);
+    komodod2.on("exit", (code, signal) => {
+      debug(`child process 2 terminated due to receipt of signal ${signal}`);
       setTimeout(() => {
         process.exit(0);
       }, 2000);
     });
 
-    // Step 3: wait until ready
-    const isReady = await komodod.isReady();
-    debug(`isReady = ${JSON.stringify(isReady)}`);
-    const waitUntilReady = await komodod.waitUntilReady();
-    debug(`waitUntilReady = ${JSON.stringify(waitUntilReady)}`);
+    // Step 7: wait until ready
+    const waitUntilReady2 = await komodod2.waitUntilReady();
+    debug(`waitUntilReady2 = ${JSON.stringify(waitUntilReady2)}`);
 
-    // Step 4: call rpc (komodo cli)
-
-    // const help = await api.rpc({
-    //   coin,
-    //   action: "help"
-    // });
-    // debug(`help = ${help}`);
-    const info = await komodod.getInfo();
-    debug(`info = ${info}`);
-    // const info = await api.getInfo({
-    //   coin
-    // });
-    // debug(`info = ${info}`);
-    // const info = await komodod.rpc({
-    //   action: "getinfo"
-    // });
-    // debug(`info = ${info}`);
-    // const info = await api.rpc({
-    //   coin,
-    //   action: "getinfo"
-    // });
-    // debug(`info = ${info}`);
-
-    const getnewaddress = await api.rpc({
-      coin,
-      action: "getnewaddress"
-    });
-    debug(`getnewaddress = ${getnewaddress}`);
-
-    const getaddressbalance = await api.rpc({
-      coin,
-      action: "getaddressbalance",
-      args: {
-        addresses: ["RLC7XBJYemEeJxCcocj2vjDTcyuS5uFdJw"]
-      }
-    });
-    debug(`getaddressbalance = ${getaddressbalance}`);
-
-    const validateaddress = await api.rpc({
-      coin,
-      action: "validateaddress",
-      args: [getnewaddress]
-    });
-    debug(`validateaddress = ${validateaddress}`);
-
-    // const unavailable = await api.rpc({
-    //   coin,
-    //   action: "unavailable"
-    // });
-    // debug(`unavailable = ${unavailable}`);
-
-    // Step 5: stop daemon
-    const config = await komodod.getConfig();
-    debug(`config = ${JSON.stringify(config)}`);
-
-    if (komodod.isRunning() === true) {
-      // const rs = await komodod.stop();
-      // or
-      const rs = await api.stopDaemon(coin);
-      debug(`rs.ok === done = ${rs.ok === "done"}`);
+    if (komodod2.isRunning() === true) {
+      const rs2 = await app2.stopDaemon(coin);
+      debug(`rs2.ok === done = ${rs2.ok === "done"}`);
     }
   } catch (err) {
-    debug(JSON.stringify(err));
+    debug(err.message);
     setTimeout(() => {
       process.exit(1);
     }, 2000);

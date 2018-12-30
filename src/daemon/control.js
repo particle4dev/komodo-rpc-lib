@@ -1,7 +1,8 @@
 // @flow
 
+import fs from "fs";
 import split2 from "split2";
-import { execFile } from "child_process";
+import { spawn } from "child_process";
 import { getKomodod } from "../paths";
 import { stop } from "../rpc/stop";
 import type { StateType } from "./schema";
@@ -18,6 +19,8 @@ type ParamsType = {
 
 type StartType = {
   komodod?: string,
+  logs?: boolean,
+  detached?: boolean,
   args: ParamsType
 };
 
@@ -44,29 +47,78 @@ export default function controlFactory(state: StateType) {
       // silent mod
       // argsParam.push('&');
 
+      // eslint-disable-next-line consistent-return
       return new Promise(async (resolve, reject) => {
-        // HOW TO DETECT IF PROCESS SPAWNED SUCCESSFULLY
-        // https://github.com/nodejs/help/issues/1191
-        //
-        await this.stop({
-          force: true
-        });
-        // https://github.com/facebook/flow/issues/740
-        // $FlowIgnore: suppressing this error
-        childProcess = execFile(komododFile, argsParam, {
-          maxBuffer: 1024 * 1000000 // 1000 mb
-        });
-        childProcess.on("error", error => {
-          debug(error.message);
-          reject(error);
-        });
-        childProcess.stdout.setEncoding("utf8");
-        childProcess.stdout.pipe(split2()).on("data", data => debug(data));
+        try {
+          // HOW TO DETECT IF PROCESS SPAWNED SUCCESSFULLY
+          // https://github.com/nodejs/help/issues/1191
+          // $FlowIgnore: suppressing this error
+          if (childProcess && !childProcess.killed) {
+            debug("child process is really started");
+            return resolve({
+              ok: "done"
+            });
+          }
 
-        childProcess.stderr.setEncoding("utf8");
-        childProcess.stderr.pipe(split2()).on("data", data => debug(data));
-        if (typeof childProcess.pid === "number") {
-          resolve(childProcess);
+          const options = {};
+          if (config.detached) {
+            options.detached = true;
+          }
+
+          // https://github.com/facebook/flow/issues/740
+          // $FlowIgnore: suppressing this error
+          childProcess = spawn(komododFile, argsParam);
+
+          // https://nodejs.org/api/child_process.html#child_process_subprocess_unref
+          if (config.detached) {
+            childProcess.unref();
+          }
+
+          childProcess.on("error", error => {
+            debug(error.message);
+            reject(error);
+          });
+
+          childProcess.stdout.setEncoding("utf8");
+          childProcess.stdout
+            .pipe(split2())
+            .on("data", data => debug(`LOG: ${data}`));
+          if (config.logs) {
+            const logStream = fs.createWriteStream(this.getLogFile(), {
+              flags: "w"
+            });
+            childProcess.stdout.pipe(logStream);
+          }
+
+          childProcess.stderr.setEncoding("utf8");
+          childProcess.stderr
+            .pipe(split2())
+            .on("data", data => debug(`ERROR: ${data}`));
+          if (config.logs) {
+            const errorLogStream = fs.createWriteStream(
+              this.getErrorLogFile(),
+              {
+                flags: "w"
+              }
+            );
+            childProcess.stderr.pipe(errorLogStream);
+          }
+
+          childProcess.on("exit", (code, signal) => {
+            debug(
+              `child process terminated due to receipt of signal ${signal} and code ${code}`
+            );
+            childProcess = null;
+          });
+
+          if (typeof childProcess.pid === "number") {
+            resolve({
+              ok: "done"
+            });
+          }
+        } catch (err) {
+          debug(err.message);
+          reject(err);
         }
       });
     },
@@ -126,7 +178,7 @@ export default function controlFactory(state: StateType) {
 
         setTimeout(() => {
           clearInterval(interval);
-          reject(new Error("Giving up trying to connect to marketmaker"));
+          reject(new Error("Giving up trying to connect to komodod"));
         }, time);
       });
     },

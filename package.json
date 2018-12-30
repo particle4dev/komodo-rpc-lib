@@ -12,7 +12,7 @@
   "scripts": {
     "dev": "cross-env DEBUG=kmdrpc:* ./node_modules/.bin/babel-node examples/app.js",
     "devtest": "cross-env DEBUG=kmdrpc:* ./node_modules/.bin/babel-node",
-    "devkmdice": "npm run devtest -- examples/startKMDice.js",
+    "devkmdice": "npm run devtest -- examples/start-kmdice.js",
     "test": "jest",
     "coverage": "npm test -- --coverage",
     "test-coverage": "npm test -- --coverage",
@@ -20,7 +20,7 @@
     "lint": "eslint .",
     "lint-fix": "eslint --fix .",
     "flow": "flow check",
-    "docs": "documentation readme src --section=API",
+    "docs": "./node_modules/.bin/documentation build -f md src > docs/NODE_API.md",
     "postdocs": "git add README.md",
     "clean": "rimraf dist",
     "flowbuild": "flow-copy-source src dist",
