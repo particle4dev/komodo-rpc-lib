@@ -45,5 +45,4 @@ notifications:
     recipients:
       - particle4dev@gmail.com
     on_success: never
-    on_failure: never
-    # on_failure: always
+    on_failure: always

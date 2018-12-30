@@ -1,3 +1,11 @@
+/**
+ * Use KomodoRPC to start KMDICE chain with detached option
+ * This is for debug purposes. Recommend not run it in production
+ * How to run:
+ *
+ *     $ npm run devtest -- examples/start-chain-with-detacked-options.js
+ */
+
 import KomodoRPC from "../src";
 
 const debug = require("debug")("kmdrpc:test:start-chain-with-detacked-options");
@@ -23,6 +31,7 @@ const debug = require("debug")("kmdrpc:test:start-chain-with-detacked-options");
     // Step 2: start the chain
     const komodod = await api.startDaemon(coin);
     await komodod.start({
+      detached: true,
       args
     });
 
@@ -30,15 +39,14 @@ const debug = require("debug")("kmdrpc:test:start-chain-with-detacked-options");
     const waitUntilReady = await komodod.waitUntilReady();
     debug(`waitUntilReady = ${JSON.stringify(waitUntilReady)}`);
 
-    // Step 4: stop daemon
-    if (komodod.isRunning() === true) {
-      const rs = await komodod.stop();
-      debug(`rs.ok === done = ${rs.ok === "done"}`);
-    }
-
+    // Step 4: stop application
     setTimeout(() => {
       process.exit(0);
     }, 2000);
+
+    // Step 5: open new terminal and
+    // run `ps -ax | grep komodod`
+    // you will still see komodod is running
   } catch (err) {
     debug(err.message);
     setTimeout(() => {

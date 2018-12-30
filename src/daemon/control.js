@@ -20,7 +20,7 @@ type ParamsType = {
 type StartType = {
   komodod?: string,
   logs?: boolean,
-  ignore?: boolean,
+  detached?: boolean,
   args: ParamsType
 };
 
@@ -60,9 +60,20 @@ export default function controlFactory(state: StateType) {
             });
           }
 
+          const options = {};
+          if (config.detached) {
+            options.detached = true;
+          }
+
           // https://github.com/facebook/flow/issues/740
           // $FlowIgnore: suppressing this error
           childProcess = spawn(komododFile, argsParam);
+
+          // https://nodejs.org/api/child_process.html#child_process_subprocess_unref
+          if (config.detached) {
+            childProcess.unref();
+          }
+
           childProcess.on("error", error => {
             debug(error.message);
             reject(error);
