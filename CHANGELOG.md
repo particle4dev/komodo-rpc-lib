@@ -1,4 +1,4 @@
-npm run devtest -- examples/startKMDice.js && \
+npm run devtest -- examples/start-kmdice.js && \
 npm run devtest -- examples/app.js && \
 npm run devtest -- examples/callRPC.js && \
 npm run devtest -- examples/readConfig.js && \

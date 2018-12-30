@@ -18,6 +18,8 @@
 
 ## Examples
 
+-   [Start KMDice chain](examples/start-kmdice.js)
+
 ## Documentation
 
 ## [Contributing](CONTRIBUTING.md)

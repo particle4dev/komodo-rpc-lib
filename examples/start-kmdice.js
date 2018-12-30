@@ -1,6 +1,13 @@
+/**
+ * Use KomodoRPC to start KMDICE chain
+ * How to run:
+ *
+ *     $ npm run devtest -- examples/start-kmdice.js
+ */
+
 import KomodoRPC from "../src";
 
-const debug = require("debug")("kmdrpc:test:startkmdice");
+const debug = require("debug")("kmdrpc:test:start-kmdice");
 
 (async () => {
   const application = "Agama";
