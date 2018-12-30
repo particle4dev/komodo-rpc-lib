@@ -2,7 +2,7 @@ import d from "debug";
 import KomodoRPC from "../src";
 
 const logs = "kmdrpc:test";
-const debug = d(`${logs}:startChainWithLog`);
+const debug = d(`${logs}:start-chain-with-log`);
 d.enable(`${logs}:*`);
 
 function wait(delay) {

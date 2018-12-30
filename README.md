@@ -22,6 +22,7 @@
 -   [Start mutil chain](examples/start-mutil-chain.js)
 -   [Start a chain and call RPC](examples/start-mutil-chain.js)
 -   [Start a chain and read its config](examples/read-config.js)
+-   [Start a chain with log options](examples/start-chain-with-log.js)
 
 ## Documentation
 
