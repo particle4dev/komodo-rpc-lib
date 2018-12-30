@@ -11,9 +11,18 @@ describe("lib/readLastLines", () => {
         filePath: numberedfilePath,
         maxLineCount: 15
       });
-      const { length } = lines.split(/\n|\r/);
-      expect(length).toEqual(10);
-
+      expect(lines.split(/\n|\r/)).toEqual([
+        "10",
+        "9 9",
+        "8 8",
+        "7 7",
+        "6 6",
+        "5 5",
+        "4 4",
+        "3 3",
+        "2 2",
+        "1 1"
+      ]);
       done();
     } catch (err) {
       done.fail(err);
@@ -25,9 +34,18 @@ describe("lib/readLastLines", () => {
       const lines = await readLastLines({
         filePath: numberedfilePath
       });
-      const { length } = lines.split(/\n|\r/);
-      expect(length).toEqual(10);
-
+      expect(lines.split(/\n|\r/)).toEqual([
+        "10",
+        "9 9",
+        "8 8",
+        "7 7",
+        "6 6",
+        "5 5",
+        "4 4",
+        "3 3",
+        "2 2",
+        "1 1"
+      ]);
       done();
     } catch (err) {
       done.fail(err);
@@ -42,6 +60,7 @@ describe("lib/readLastLines", () => {
       });
       const { length } = lines.split(/\n|\r/);
       const trimmedStringLength = lines.trim().length;
+      expect(lines.split(/\n|\r/)).toEqual(["1 1"]);
       expect(length).toEqual(1);
       expect(trimmedStringLength).toEqual(3);
 

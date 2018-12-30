@@ -33,9 +33,10 @@ const readPreviousChar = (stat, file, currentCharacterCount) =>
     0,
     1,
     stat.size - 1 - currentCharacterCount
-  ).then(bytesReadAndBuffer =>
-    String.fromCharCode(bytesReadAndBuffer.buffer[0])
-  );
+  ).then(bytesReadAndBuffer => {
+    debug(bytesReadAndBuffer);
+    return String.fromCharCode(bytesReadAndBuffer.buffer[0]);
+  });
 
 export default function getLastLines(config: GetLastLines): Promise<any> {
   return new Promise(async (resolve, reject) => {
@@ -55,6 +56,13 @@ export default function getLastLines(config: GetLastLines): Promise<any> {
       let lines = "";
       // eslint-disable-next-line no-constant-condition
       while (true) {
+        // eslint-disable-next-line no-await-in-loop
+        const nextCharacter = await readPreviousChar(stat, file, chars);
+        lines = nextCharacter + lines;
+        if (NEW_LINE_CHARACTERS.includes(nextCharacter) && lines.length > 1) {
+          lineCount += 1;
+        }
+        chars += 1;
         if (lines.length > stat.size) {
           lines = lines.substring(lines.length - stat.size);
         }
@@ -64,14 +72,6 @@ export default function getLastLines(config: GetLastLines): Promise<any> {
         ) {
           break;
         }
-
-        // eslint-disable-next-line no-await-in-loop
-        const nextCharacter = await readPreviousChar(stat, file, chars);
-        lines = nextCharacter + lines;
-        if (NEW_LINE_CHARACTERS.includes(nextCharacter) && lines.length > 1) {
-          lineCount += 1;
-        }
-        chars += 1;
       }
 
       if (NEW_LINE_CHARACTERS.includes(lines.substring(0, 1))) {
