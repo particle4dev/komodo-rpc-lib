@@ -1,6 +1,6 @@
 import KomodoRPC from "../src";
 
-const debug = require("debug")("kmdrpc:test:callRPC");
+const debug = require("debug")("kmdrpc:test:call-rpc");
 
 (async () => {
   const application = "Agama";
