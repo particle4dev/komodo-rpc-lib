@@ -19,6 +19,7 @@
 ## Examples
 
 -   [Start KMDice chain](examples/start-kmdice.js)
+-   [Start mutil chain](examples/start-mutil-chain.js)
 
 ## Documentation
 

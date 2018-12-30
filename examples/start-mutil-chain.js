@@ -1,6 +1,13 @@
+/**
+ * Use KomodoRPC to start COQUI and KMDICE chain
+ * How to run:
+ *
+ *     $ npm run devtest -- examples/start-mutil-chain.js
+ */
+
 import KomodoRPC from "../src";
 
-const debug = require("debug")("kmdrpc:test:startMutilChain");
+const debug = require("debug")("kmdrpc:test:start-mutil-chain");
 
 // function wait(delay) {
 //   return new Promise(resovle => {
