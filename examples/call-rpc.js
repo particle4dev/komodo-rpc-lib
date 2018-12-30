@@ -49,8 +49,7 @@ const debug = require("debug")("kmdrpc:test:call-rpc");
     });
     debug(`getnewaddress = ${getnewaddress}`);
 
-    const getaddressbalance = await api.rpc({
-      coin,
+    const getaddressbalance = await komodod.rpc({
       action: "getaddressbalance",
       args: {
         addresses: ["RLC7XBJYemEeJxCcocj2vjDTcyuS5uFdJw"]
@@ -64,6 +63,12 @@ const debug = require("debug")("kmdrpc:test:call-rpc");
       args: [getnewaddress]
     });
     debug(`validateaddress = ${validateaddress}`);
+
+    // const unavailable = await api.rpc({
+    //   coin,
+    //   action: "unavailable"
+    // });
+    // debug(`unavailable = ${unavailable}`);
 
     // Step 5: stop daemon
     if (komodod.isRunning() === true) {
