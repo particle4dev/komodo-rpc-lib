@@ -1,3 +1,10 @@
+/**
+ * Use KomodoRPC to start KMDICE chain and call rpc
+ * How to run:
+ *
+ *     $ npm run devtest -- examples/call-rpc.js
+ */
+
 import KomodoRPC from "../src";
 import { kmdice } from "./config";
 
