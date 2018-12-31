@@ -67,7 +67,7 @@ export default function controlFactory(state: StateType) {
 
           // https://github.com/facebook/flow/issues/740
           // $FlowIgnore: suppressing this error
-          childProcess = spawn(komododFile, argsParam);
+          childProcess = spawn(komododFile, argsParam, options);
 
           // https://nodejs.org/api/child_process.html#child_process_subprocess_unref
           if (config.detached) {
