@@ -4,7 +4,6 @@ import util from "util";
 
 const debug = require("debug")("kmdrpc:utils:getLastLines");
 
-const fread = util.promisify(fs.read);
 const fstat = util.promisify(fs.stat);
 const fopen = util.promisify(fs.open);
 
@@ -27,15 +26,21 @@ type GetLastLines = {
 const NEW_LINE_CHARACTERS = ["\n", "\r"];
 
 const readPreviousChar = (stat, file, currentCharacterCount) =>
-  fread(
-    file,
-    Buffer.alloc(1),
-    0,
-    1,
-    stat.size - 1 - currentCharacterCount
-  ).then(bytesReadAndBuffer => {
-    debug(bytesReadAndBuffer);
-    return String.fromCharCode(bytesReadAndBuffer.buffer[0]);
+  new Promise((resolve, reject) => {
+    fs.read(
+      file,
+      Buffer.alloc(1),
+      0,
+      1,
+      stat.size - 1 - currentCharacterCount,
+      (err, bytesRead, buffer) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(String.fromCharCode(buffer[0]));
+        }
+      }
+    );
   });
 
 export default function getLastLines(config: GetLastLines): Promise<any> {
@@ -48,6 +53,7 @@ export default function getLastLines(config: GetLastLines): Promise<any> {
       if (!fs.existsSync(filePath)) {
         return reject(new Error("file does not exist"));
       }
+
       const stat = await fstat(filePath);
       file = await fopen(filePath, "r");
 
