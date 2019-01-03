@@ -41,6 +41,8 @@ cache:
 after_success:
   - 'cat ./coverage/lcov.info | ./node_modules/.bin/coveralls'
   - npm run build
+  - 'echo "email=particle4dev@gmail.com" >> $HOME/.npmrc 2> /dev/null'
+  - 'echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> $HOME/.npmrc 2> /dev/null'
   - npm publish
  
 notifications:

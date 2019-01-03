@@ -20,7 +20,7 @@ coverage
 node_modules
 
 # code
-.git/
+.git
 src
 examples
 
