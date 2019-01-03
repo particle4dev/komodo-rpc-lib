@@ -15,6 +15,7 @@ describe("src/daemon/control", () => {
   );
 
   test("check methods", () => {
+    expect(typeof control.addDefaultParams).toBe("function");
     expect(typeof control.start).toBe("function");
     expect(typeof control.stop).toBe("function");
     expect(typeof control.isRunning).toBe("function");
@@ -51,5 +52,25 @@ describe("src/daemon/control", () => {
     expect(resultStop).toEqual({ ok: "done" });
 
     control.getInfo = undefined;
+  });
+
+  test("addDefaultParams", () => {
+    expect(
+      control.addDefaultParams({
+        addnode: [1, 2, 3]
+      })
+    ).toEqual([
+      "-addnode=1",
+      "-addnode=2",
+      "-addnode=3",
+      "-ac_supply=10500000",
+      "-ac_reward=2500000000",
+      "-ac_halving=210000",
+      "-ac_cc=2",
+      "-addressindex=1",
+      "-spentindex=1",
+      "-genproclimit=true",
+      "-ac_name=KMDICE"
+    ]);
   });
 });
