@@ -13,7 +13,7 @@
     "dev": "cross-env DEBUG=kmdrpc:* ./node_modules/.bin/babel-node examples/app.js",
     "devtest": "cross-env DEBUG=kmdrpc:* ./node_modules/.bin/babel-node",
     "devkmdice": "npm run devtest -- examples/start-kmdice.js",
-    "test": "jest",
+    "test": "cross-env DEBUG=kmdrpc:* jest",
     "coverage": "npm test -- --coverage",
     "test-coverage": "npm test -- --coverage",
     "postcoverage": "opn coverage/lcov-report/index.html",
