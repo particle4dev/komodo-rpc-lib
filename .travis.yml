@@ -31,6 +31,7 @@ matrix:
         - 8
 
 script:
+  - chmod +x ./src/daemon/__tests__/app
   - 'yarn lint'
   - 'yarn test --coverage'
 
