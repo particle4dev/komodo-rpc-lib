@@ -3,6 +3,7 @@
 import fs from "fs";
 import split2 from "split2";
 import { spawn } from "child_process";
+import chainDefaultParams from "../data/chainDefaultParams.json";
 import { getKomodod } from "../paths";
 import { stop } from "../rpc/stop";
 import type { StateType } from "./schema";
@@ -28,10 +29,36 @@ type StopType = {
   force: boolean
 };
 
+function flatten(arr) {
+  return arr.reduce(
+    (flat, toFlatten) =>
+      flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten),
+    []
+  );
+}
+
 export default function controlFactory(state: StateType) {
   debug(`setup control for ${state.coin}`);
   let childProcess = null;
   return {
+    addDefaultParams(args: ParamsType): Array<any> {
+      const params = Object.assign(
+        {},
+        args,
+        chainDefaultParams[this.getCoin()]
+      );
+      const argsParam = Object.keys(params)
+        .map(key => {
+          if (key === "addnode" && Array.isArray(params[key])) {
+            return params[key].map(v => `-addnode=${v}`);
+          }
+          return params[key] ? `-${key}=${params[key]}` : null;
+        })
+        .filter(v => v !== null);
+      argsParam.push(`-ac_name=${this.getCoin()}`);
+
+      return flatten(argsParam);
+    },
     start(config: StartType): Promise<any> {
       debug(`start komodod for ${state.coin}`);
       // eslint-disable-next-line prefer-const
@@ -40,10 +67,7 @@ export default function controlFactory(state: StateType) {
       if (!komododFile) {
         komododFile = getKomodod();
       }
-      const argsParam = Object.keys(args)
-        .map(key => (args[key] ? `-${key}=${args[key]}` : null))
-        .filter(v => v !== null);
-      argsParam.push(`-ac_name=${this.getCoin()}`);
+      const argsParam = this.addDefaultParams(args);
       // silent mod
       // argsParam.push('&');
 
