@@ -1,3 +1,4 @@
+import path from "path";
 import {
   getNodeModulePath,
   getBinPath,
@@ -7,7 +8,9 @@ import {
 
 describe("src/path/getNodeModulePath", () => {
   it("getNodeModulePath", () => {
-    expect(getNodeModulePath()).toEqual(process.cwd());
+    expect(getNodeModulePath()).toEqual(
+      path.normalize(path.join(__dirname, "..", "..", ".."))
+    );
   });
 
   it("getBinPath", () => {

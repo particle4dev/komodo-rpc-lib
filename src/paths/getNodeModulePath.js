@@ -5,7 +5,7 @@ import os from "os";
 
 export function getNodeModulePath(): string {
   // FIXME: this is not pure function
-  return process.cwd();
+  return path.normalize(path.join(__dirname, "..", ".."));
 }
 
 export function getBinPath(
