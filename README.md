@@ -16,6 +16,8 @@
 
 </div>
 
+**This package doesn't include Komodo Binary because of security reason. Please setup Komodo Binary in your local first before run this package.**
+
 ## Examples
 
 -   [Start KMDice chain](examples/start-kmdice.js)
