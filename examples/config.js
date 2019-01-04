@@ -1,3 +1,6 @@
+import path from "path";
+import os from "os";
+
 export const coqui = {
   coin: "COQUI",
   args: {
@@ -22,3 +25,13 @@ export const kmdice = {
     addnode: "144.76.217.232"
   }
 };
+
+export function getNodeModulePath(): string {
+  return path.normalize(path.join(__dirname, ".."));
+}
+
+export function getBinPath(
+  nodeModulePath: string = getNodeModulePath()
+): string {
+  return path.join(nodeModulePath, "bin");
+}

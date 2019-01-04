@@ -6,7 +6,7 @@
  */
 import d from "debug";
 import KomodoRPC from "../src";
-import { kmdice } from "./config";
+import { kmdice, getBinPath } from "./config";
 
 const logs = "kmdrpc:test";
 const debug = d(`${logs}:app`);
@@ -25,8 +25,12 @@ function wait(delay) {
   try {
     // Step 1: create application
     debug("Step 1: create application");
-    const app1 = KomodoRPC(application);
-    const app2 = KomodoRPC(application);
+    const app1 = KomodoRPC(application, {
+      bin: getBinPath(),
+    });
+    const app2 = KomodoRPC(application, {
+      bin: getBinPath(),
+    });
 
     // Step 2: start the chain with api1
     debug("Step 2: start the chain with api1");

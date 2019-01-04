@@ -9,27 +9,33 @@ type RPCType = {
   args?: Object
 };
 
-export default function callRPC(config: RPCType): Promise<any> {
-  if (!config.cli) {
-    // eslint-disable-next-line no-param-reassign
-    config.cli = getKomodoCLI();
-  }
-  const { cli, coin, action, args } = config;
-  const argsRun = [];
-  argsRun.push(`-ac_name=${coin}`);
-  argsRun.push(action);
-  if (args) {
-    argsRun.push(JSON.stringify(args));
-  }
+type OptionsInfo = {
+  bin: string
+};
 
-  return new Promise(async (resovle, reject) => {
-    // execFile(cli, argsRun, (error, stdout, stderr) => {
-    execFile(cli, argsRun, (error, stdout) => {
-      if (error) {
-        reject(error);
-      } else {
-        resovle(stdout);
-      }
+export default function rpcFactory(options: OptionsInfo) {
+  return function callRPC(config: RPCType): Promise<any> {
+    if (!config.cli) {
+      // eslint-disable-next-line no-param-reassign
+      config.cli = getKomodoCLI(options.bin);
+    }
+    const { cli, coin, action, args } = config;
+    const argsRun = [];
+    argsRun.push(`-ac_name=${coin}`);
+    argsRun.push(action);
+    if (args) {
+      argsRun.push(JSON.stringify(args));
+    }
+
+    return new Promise(async (resovle, reject) => {
+      // execFile(cli, argsRun, (error, stdout, stderr) => {
+      execFile(cli, argsRun, (error, stdout) => {
+        if (error) {
+          reject(error);
+        } else {
+          resovle(stdout);
+        }
+      });
     });
-  });
+  };
 }

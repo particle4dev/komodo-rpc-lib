@@ -1,0 +1,57 @@
+#!/bin/sh
+
+# Komodo binary
+# https://github.com/KomodoPlatform/komodo/releases
+
+RELEASE_MAC="beta-multios-0.3.1-beta/komodo_osx_beta_0.3.1.tar.gz"
+RELEASE_LINUX="beta-multios-0.3.1-beta/komodo_linux_beta_0.3.1.tar.gz"
+RELEASE_WIN="beta-multios-0.3.1-beta/komodo_windows_beta_0.3.1.zip"
+
+R_DIR=$(pwd)
+BIN_DIR="$R_DIR/bin"
+
+echo "$R_DIR"
+CURL_ARGS="-vLJO"
+
+TARBALL_URL="https://github.com/KomodoPlatform/komodo/releases/download"
+INSTALL_TMPDIR="$HOME/.-install-tmp"
+TARBALL_FILE="$BIN_DIR/komodo-tarball-tmp"
+VERBOSITY="--progress-bar"
+
+typeExists () {
+  if [ $(type -P $1) ]; then
+    return 0
+  fi
+  return 1
+}
+
+fileExists () {
+  if [ -f $1 ]; then
+    return 0
+  fi
+  return 1
+}
+
+# cleanUp() {
+#   rm -rf "$TARBALL_FILE"
+#   rm -rf "$INSTALL_TMPDIR"
+# }
+
+run_it () {
+  set -e
+  set -u
+
+  if ! typeExists 'curl'; then
+    echo "Not found curl. Please install it first"
+    exit 1
+  fi
+
+  curl $CURL_ARGS $VERBOSITY -H 'Accept: application/octet-stream' --fail --continue-at - \
+    -O "$TARBALL_FILE" "$TARBALL_URL/$RELEASE_MAC"
+}
+
+run_it
+
+# (export AUTH_TOKEN=<oauth-token>; \
+#  export ASSET_ID=$(wget -O - https://api.github.com/repos/<owner>/<repo>/releases/tags/<tag>?access_token=$AUTH_TOKEN | python -c 'import sys, json; print json.load(sys.stdin)["assets"][0]["id"]'); \
+#  wget --header='Accept:application/octet-stream' -O <download-name> https://api.github.com/repos/<owner>/<repo>/releases/assets/$ASSET_ID?access_token=$AUTH_TOKEN)
