@@ -16,7 +16,7 @@
 
 </div>
 
-**This package doesn't include Komodo Binary because of security reason. Please setup Komodo Binary in your local first before run this package.**
+**This package doesn't include [Komodo Binary](https://github.com/KomodoPlatform/komodo/releases) because of security reason. Please setup [Komodo Binary](https://github.com/KomodoPlatform/komodo/releases) in your local first before run this package.**
 
 ## Examples
 
