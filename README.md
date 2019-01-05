@@ -48,11 +48,12 @@ npm install kmd-rpc --save
 Download and unzip Komodo daemon [here](https://github.com/KomodoPlatform/komodo/releases). Please follow this directory structure.
 
 ```
-Project
-└── bin
-    ├── mac
-    ├── linux
-    └── win
+Your Project
+├── bin
+│   ├── mac
+│   ├── linux
+│   └── win
+└── src
 ```
 
 ## Examples
