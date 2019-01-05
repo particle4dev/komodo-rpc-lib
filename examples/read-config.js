@@ -6,7 +6,7 @@
  */
 
 import KomodoRPC from "../src";
-import { kmdice } from "./config";
+import { kmdice, getBinPath } from "./config";
 
 const debug = require("debug")("kmdrpc:test:read-config");
 
@@ -16,7 +16,9 @@ const debug = require("debug")("kmdrpc:test:read-config");
 
   try {
     // Step 1: create application
-    const api = KomodoRPC(application);
+    const api = KomodoRPC(application, {
+      bin: getBinPath()
+    });
 
     // Step 2: start the chain
     const komodod = await api.startDaemon(coin);
@@ -36,6 +38,9 @@ const debug = require("debug")("kmdrpc:test:read-config");
     });
 
     // Step 3: wait until ready
+    const waitUntilReady = await komodod.waitUntilReady();
+    debug(`waitUntilReady = ${JSON.stringify(waitUntilReady)}`);
+
     const config = await komodod.getConfig();
     debug(`config = ${JSON.stringify(config)}`);
 

@@ -6,7 +6,7 @@
  */
 
 import KomodoRPC from "../src";
-import { kmdice } from "./config";
+import { kmdice, getBinPath } from "./config";
 
 const debug = require("debug")("kmdrpc:test:start-kmdice");
 
@@ -16,7 +16,9 @@ const debug = require("debug")("kmdrpc:test:start-kmdice");
 
   try {
     // Step 1: create application
-    const api = KomodoRPC(application);
+    const api = KomodoRPC(application, {
+      bin: getBinPath()
+    });
 
     // Step 2: start the chain
     const komodod = await api.startDaemon(coin);

@@ -7,7 +7,7 @@
 
 import d from "debug";
 import KomodoRPC from "../src";
-import { kmdice } from "./config";
+import { kmdice, getBinPath } from "./config";
 
 const logs = "kmdrpc:test";
 const debug = d(`${logs}:start-chain-with-log`);
@@ -25,7 +25,9 @@ function wait(delay) {
 
   try {
     // Step 1: create application
-    const api = KomodoRPC(application);
+    const api = KomodoRPC(application, {
+      bin: getBinPath()
+    });
 
     // Step 2: start the chain
     debug(`start ${coin} chain`);
