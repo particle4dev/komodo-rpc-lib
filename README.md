@@ -71,6 +71,27 @@ const api = KomodoRPC(application, {
 });
 ```
 
+Launch the main KMD chain, we will launch KMDice for example.
+
+```js
+const coin = "KMDICE";
+const args = {
+  ac_supply: 10500000,
+  ac_reward: 2500000000,
+  ac_halving: 210000,
+  ac_cc: 2,
+  addressindex: 1,
+  spentindex: 1,
+  addnode: "144.76.217.232"
+};
+
+const komodod = await api.startDaemon(coin);
+
+await komodod.start({
+  args
+});
+```
+
 ## Examples
 
 -   [Basic example](examples/basic)
