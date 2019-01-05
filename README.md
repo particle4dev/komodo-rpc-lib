@@ -56,6 +56,21 @@ Your Project
 └── src
 ```
 
+Create an application 
+
+```js
+const path = require("path");
+const KomodoRPC = require("kmd-rpc").default;
+
+function getBinPath() {
+  return path.join(__dirname, "bin");
+}
+
+const api = KomodoRPC(application, {
+  bin: getBinPath()
+});
+```
+
 ## Examples
 
 -   [Basic example](examples/basic)
