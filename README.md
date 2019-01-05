@@ -45,7 +45,7 @@ or via `npm`:
 npm install kmd-rpc --save
 ```
 
-To install the Komodo daemon, download and unzip it [here](https://github.com/KomodoPlatform/komodo/releases). Please follow this directory structure.
+To setup the Komodo daemon, download and unzip it [here](https://github.com/KomodoPlatform/komodo/releases). Please follow this directory structure.
 
 ```
 Your Project
@@ -90,6 +90,14 @@ const komodod = await api.startDaemon(coin);
 await komodod.start({
   args
 });
+```
+
+Wait until the daemon launches and start interact with it
+
+```js
+
+aaa
+
 ```
 
 ## Examples
