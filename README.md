@@ -45,7 +45,7 @@ or via `npm`:
 npm install kmd-rpc --save
 ```
 
-Download and unzip Komodo daemon [here](https://github.com/KomodoPlatform/komodo/releases). Please follow this directory structure.
+To install the Komodo daemon, download and unzip it [here](https://github.com/KomodoPlatform/komodo/releases). Please follow this directory structure.
 
 ```
 Your Project
