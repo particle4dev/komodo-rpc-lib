@@ -49,10 +49,10 @@ Download and unzip Komodo daemon [here](https://github.com/KomodoPlatform/komodo
 
 ```
 Project
-├── bin
-│   ├── mac
-│   ├── linux
-│   └── win
+└── bin
+    ├── mac
+    ├── linux
+    └── win
 ```
 
 ## Examples
