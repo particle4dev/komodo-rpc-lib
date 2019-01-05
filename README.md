@@ -92,7 +92,7 @@ await komodod.start({
 });
 ```
 
-Wait until the daemon launches and start interact with it
+Wait until the daemon launches and start interact with it.
 
 ```js
 await komodod.waitUntilReady();
@@ -104,7 +104,7 @@ const getnewaddress = await api.rpc({
 debug(`getnewaddress = ${getnewaddress}`);
 ```
 
-Stop the daemon
+Stop the daemon.
 
 ```js
 if (komodod.isRunning() === true) {
@@ -125,7 +125,19 @@ if (komodod.isRunning() === true) {
 
 ## Documentation
 
-## [Contributing](CONTRIBUTING.md)
+## Contributing
+
+Familiarize yourself with contributing on github <https://guides.github.com/activities/contributing-to-open-source/>
+
+1. **Fork** the repo on GitHub
+2. **Clone** the project to your own machine
+3. **Commit** changes to your own branch
+4. **Push** your work back up to your fork
+5. Submit a **Pull request** so that we can review your changes
+
+## Issues
+
+Feel free to submit issues and enhancement requests.
 
 ## Credits
 
