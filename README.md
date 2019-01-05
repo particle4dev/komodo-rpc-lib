@@ -47,7 +47,7 @@ Install the package via `npm`:
 
 ```sh
 npm install kmd-rpc --save
-``
+```
 
 ## Examples
 
