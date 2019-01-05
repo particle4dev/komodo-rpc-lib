@@ -56,7 +56,7 @@ Your Project
 └── src
 ```
 
-Create an application 
+Create an application.
 
 ```js
 const path = require("path");
