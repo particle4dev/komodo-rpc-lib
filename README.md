@@ -71,7 +71,7 @@ const api = KomodoRPC(application, {
 });
 ```
 
-Launch the main KMD chain, we will launch KMDice for example.
+Launch [the chain](https://github.com/jl777/komodo/blob/master/src/assetchains.old), we will launch KMDice for example.
 
 ```js
 const coin = "KMDICE";
