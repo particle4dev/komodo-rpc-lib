@@ -36,7 +36,7 @@
 
 ## Credits
 
-- **pbca26** - _Initial work and maintainer_ - [pbca26](https://github.com/pbca26)
+- **pbca26** - _Initial work - [pbca26](https://github.com/pbca26)
 - **Nam Hoang** - _Maintainer_ - [particle4dev](https://github.com/particle4dev)
 
 See also the list of [contributors](/AUTHORS.md) who participated in this project.
