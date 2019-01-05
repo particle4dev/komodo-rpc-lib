@@ -30,6 +30,18 @@
 -   [Start a chain and read its config](examples/read-config.js)
 -   [Start a chain with log options](examples/start-chain-with-log.js)
 
+## Quickstart
+
+### Prerequisites
+
+Following are the minimum tested versions for the tools and libraries you need for running Atomic Decentralized app:
+
+- Nodejs: v10.13.0 or newer
+
+- Yarn: v1.9.4 or newer
+
+- Npm: v6.3.0 or newer
+
 ## Documentation
 
 ## [Contributing](CONTRIBUTING.md)
