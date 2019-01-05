@@ -1,4 +1,6 @@
+import path from "path";
 import {
+  getCurrentWorkingDirectory,
   getNodeModulePath,
   getBinPath,
   getKomodod,
@@ -6,8 +8,13 @@ import {
 } from "../getNodeModulePath";
 
 describe("src/path/getNodeModulePath", () => {
+  it("getCurrentWorkingDirectory", () => {
+    expect(getCurrentWorkingDirectory()).toEqual(process.cwd());
+  });
   it("getNodeModulePath", () => {
-    expect(getNodeModulePath()).toEqual(process.cwd());
+    expect(getNodeModulePath()).toEqual(
+      path.normalize(path.join(__dirname, "..", "..", ".."))
+    );
   });
 
   it("getBinPath", () => {

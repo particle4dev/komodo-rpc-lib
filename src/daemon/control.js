@@ -3,7 +3,7 @@
 import fs from "fs";
 import split2 from "split2";
 import { spawn } from "child_process";
-import chainDefaultParams from "../data/chainDefaultParams.json";
+import chainDefaultParams from "../data/chainDefaultParams";
 import { getKomodod } from "../paths";
 import { stop } from "../rpc/stop";
 import type { StateType } from "./schema";
@@ -65,8 +65,10 @@ export default function controlFactory(state: StateType) {
       const { komodod, args } = config;
       let komododFile = komodod;
       if (!komododFile) {
-        komododFile = getKomodod();
+        const { options } = state;
+        komododFile = getKomodod(options.bin);
       }
+
       const argsParam = this.addDefaultParams(args);
       // silent mod
       // argsParam.push('&');

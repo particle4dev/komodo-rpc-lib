@@ -1,0 +1,45 @@
+# Packages #
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+#editor settings
+.idea
+.editorconfig
+
+#linters
+.jscsrc
+.jshintrc
+.eslintrc*
+
+#build tools
+.travis.yml
+.jenkins.yml
+.codeclimate.yml
+
+#tests
+test
+coverage
+
+# for npm
+node_modules
+
+# code
+.git
+src
+examples
+
+# misc
+.gitignore
+CHANGELOG.md
+ROADMAP.md
+AUTHORS
+docs
+assets
+COQUI_7776
+KMDICE_7776

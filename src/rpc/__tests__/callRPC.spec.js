@@ -1,7 +1,10 @@
 import childProcess from "child_process";
-import callRPC from "../callRPC";
+import rpcFactory from "../callRPC";
 
 describe("src/rpc/callRPC", () => {
+  const callRPC = rpcFactory({
+    bin: ""
+  });
   test("callRPC", async () => {
     childProcess.execFile = jest.fn((cli, argsRun, cb) => {
       cb(null, {
@@ -17,6 +20,7 @@ describe("src/rpc/callRPC", () => {
         one: 1
       }
     });
+
     expect(rs).toEqual({
       cli: "cli",
       argsRun: ["-ac_name=coin", "action", '{"one":1}']

@@ -2,19 +2,26 @@
 
 ### Table of Contents
 
--   [debug][1]
+-   [OptionsInfo][1]
     -   [Parameters][2]
--   [GetLastLines][3]
-    -   [Parameters][4]
-    -   [Properties][5]
+    -   [Properties][3]
+-   [GetLastLines][4]
+    -   [Parameters][5]
+    -   [Properties][6]
 
-## debug
+## OptionsInfo
 
 This function says hello.
+
+Type: {bin: [string][7]}
 
 ### Parameters
 
 -   `name`  Some name to say hello for.
+
+### Properties
+
+-   `bin` **[string][7]** 
 
 Returns **any** The hello.
 
@@ -22,37 +29,39 @@ Returns **any** The hello.
 
 Read in the last `n` lines of a file
 
-Type: {filePath: [string][6], maxLineCount: [number][7]?, encoding: [string][6]?}
+Type: {filePath: [string][7], maxLineCount: [number][8]?, encoding: [string][7]?}
 
 ### Parameters
 
--   `args` **[Object][8]** args
-    -   `args.filePath` **[string][6]** file (direct or relative path to file.)
+-   `args` **[Object][9]** args
+    -   `args.filePath` **[string][7]** file (direct or relative path to file.)
     -   `args.maxLineCount` **int** max number of lines to read in.
     -   `args.encoding` **encoding** specifies the character encoding to be used, or 'buffer'. defaults to 'utf8'.
 
 ### Properties
 
--   `filePath` **[string][6]** 
--   `maxLineCount` **[number][7]?** 
--   `encoding` **[string][6]?** 
+-   `filePath` **[string][7]** 
+-   `maxLineCount` **[number][8]?** 
+-   `encoding` **[string][7]?** 
 
-Returns **[promise][9]** a promis resolved with the lines or rejected with an error.
+Returns **[promise][10]** a promis resolved with the lines or rejected with an error.
 
-[1]: #debug
+[1]: #optionsinfo
 
 [2]: #parameters
 
-[3]: #getlastlines
+[3]: #properties
 
-[4]: #parameters-1
+[4]: #getlastlines
 
-[5]: #properties
+[5]: #parameters-1
 
-[6]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[6]: #properties-1
 
-[7]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[7]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[8]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[8]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 
-[9]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
+[9]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+
+[10]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise

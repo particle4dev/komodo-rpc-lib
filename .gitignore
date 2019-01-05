@@ -1,4 +1,9 @@
 .DS_Store
+!bin/
+bin/*
+# for travis test
+!bin/fetch-params.sh
+!bin/mac/
 coverage
 dist
 node_modules

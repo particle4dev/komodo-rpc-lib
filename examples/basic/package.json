@@ -1,0 +1,19 @@
+{
+  "name": "basic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env DEBUG=kmdrpc:* nodemon ./index.js -V"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^4.1.1",
+    "kmd-rpc": "^0.4.5",
+    "nodemon": "^1.18.9"
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.0"
+  }
+}

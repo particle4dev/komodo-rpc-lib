@@ -3,13 +3,16 @@
 import path from "path";
 import os from "os";
 
-export function getNodeModulePath(): string {
-  // FIXME: this is not pure function
+export function getCurrentWorkingDirectory(): string {
   return process.cwd();
 }
 
+export function getNodeModulePath(): string {
+  return path.normalize(path.join(__dirname, "..", ".."));
+}
+
 export function getBinPath(
-  nodeModulePath: string = getNodeModulePath()
+  nodeModulePath: string = getCurrentWorkingDirectory()
 ): string {
   return path.join(nodeModulePath, "bin");
 }

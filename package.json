@@ -1,13 +1,12 @@
 {
-  "name": "komodo-rpc-lib",
-  "version": "0.4.0",
+  "name": "kmd-rpc",
+  "version": "0.4.5",
   "description": "komodo rpc library",
   "license": "MIT",
-  "repository": "pbca26/komodo-rpc-lib",
+  "repository": "particle4dev/komodo-rpc-lib",
   "main": "dist/index.js",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "scripts": {
     "dev": "cross-env DEBUG=kmdrpc:* ./node_modules/.bin/babel-node examples/app.js",
@@ -28,7 +27,8 @@
     "build": "babel src -d dist",
     "preversion": "npm run lint && npm test && npm run build",
     "version": "standard-changelog && git add CHANGELOG.md",
-    "postpublish": "git push origin master --follow-tags"
+    "postpublish": "git push origin master --follow-tags",
+    "update-authors": "./scripts/update-authors"
   },
   "husky": {
     "hooks": {
@@ -55,6 +55,21 @@
     "@babel/core": "^7.2.2",
     "@babel/node": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.2.3",
+    "@babel/plugin-proposal-decorators": "^7.1.2",
+    "@babel/plugin-proposal-do-expressions": "^7.0.0",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
+    "@babel/plugin-proposal-function-bind": "^7.0.0",
+    "@babel/plugin-proposal-function-sent": "^7.1.0",
+    "@babel/plugin-proposal-json-strings": "^7.0.0",
+    "@babel/plugin-proposal-logical-assignment-operators": "^7.0.0",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.0.0",
+    "@babel/plugin-proposal-numeric-separator": "^7.0.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.0.0",
+    "@babel/plugin-proposal-pipeline-operator": "^7.0.0",
+    "@babel/plugin-proposal-throw-expressions": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-syntax-import-meta": "^7.0.0",
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-flow": "^7.0.0",
     "babel-core": "^7.0.0-bridge.0",

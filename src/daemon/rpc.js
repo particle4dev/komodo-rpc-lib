@@ -1,8 +1,9 @@
 /* eslint-disable no-param-reassign */
 
 // @flow
-import callRPC from "../rpc/callRPC";
+import callRPCFactory from "../rpc/callRPC";
 import getinfoFactory from "../rpc/getinfo";
+import stopFactory from "../rpc/stop";
 import type { StateType } from "./schema";
 
 const debug = require("debug")("kmdrpc:daemon:rpc");
@@ -15,6 +16,8 @@ type RPCType = {
 
 export default function rpcFactory(state: StateType) {
   debug(`setup config for ${state.coin}`);
+  const { options } = state;
+  const callRPC = callRPCFactory(options);
   // $FlowIgnore: suppressing this error
   return Object.assign(
     {
@@ -25,7 +28,14 @@ export default function rpcFactory(state: StateType) {
         return callRPC(config);
       }
     },
-    getinfoFactory(state.coin)
+    getinfoFactory({
+      coin: state.coin,
+      bin: options.bin
+    }),
+    stopFactory({
+      coin: state.coin,
+      bin: options.bin
+    })
   );
 }
 /* eslint-enable no-param-reassign */
