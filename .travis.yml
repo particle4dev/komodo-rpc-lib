@@ -40,7 +40,7 @@ cache:
   - yarn
 
 after_success:
-  - 'if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then exit(0); fi'
+  - 'if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then exit 0; fi'
   - 'cat ./coverage/lcov.info | ./node_modules/.bin/coveralls'
   - npm run build
   - 'echo "email=particle4dev@gmail.com" >> $HOME/.npmrc 2> /dev/null'
