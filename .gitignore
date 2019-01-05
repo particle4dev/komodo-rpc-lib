@@ -1,15 +1,9 @@
 .DS_Store
-!bin/mac/*
+!bin/
+bin/*
+ # for travis test
+!bin/mac/
 coverage
 dist
 node_modules
 *.log
-
-*.7z
-*.dmg
-*.gz
-*.iso
-*.jar
-*.rar
-*.tar
-*.zip
