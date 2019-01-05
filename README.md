@@ -31,3 +31,13 @@
 ## Documentation
 
 ## [Contributing](CONTRIBUTING.md)
+
+## Credits
+
+- **Nam Hoang** - _Initial work and maintainer_ - [particle4dev](https://github.com/particle4dev)
+
+See also the list of [contributors](/AUTHORS.md) who participated in this project.
+
+## License
+
+This project is licensed under the MIT license, Copyright (c) 2018 Komodo. For more information see `LICENSE.md`.
