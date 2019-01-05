@@ -33,8 +33,6 @@
 
 ### Install
 
-## Installation
-
 Install the package via `yarn`:
 
 ```sh
