@@ -25,8 +25,6 @@
 
 ### Prerequisites
 
-Following are the minimum tested versions for the tools and libraries you need for running Atomic Decentralized app:
-
 - Nodejs: v10.13.0 or newer
 
 - Yarn: v1.9.4 or newer
