@@ -1,6 +1,15 @@
 .DS_Store
-bin
+!bin/mac/*
 coverage
 dist
 node_modules
 *.log
+
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
