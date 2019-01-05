@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "debug": "^4.1.1",
-    "kmd-rpc": "^0.4.3",
+    "kmd-rpc": "^0.4.5",
     "nodemon": "^1.18.9"
   },
   "devDependencies": {

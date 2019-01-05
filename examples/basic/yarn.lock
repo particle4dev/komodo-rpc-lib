@@ -754,9 +754,9 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.2.tgz#01146b36a6218e64e58f3a8d66de5d7fc6f6d051"
 
-kmd-rpc@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/kmd-rpc/-/kmd-rpc-0.4.3.tgz#553fc66ba8332533ec94c6efb6ab217bfffe8dd0"
+kmd-rpc@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/kmd-rpc/-/kmd-rpc-0.4.5.tgz#2c3a58a579b774584b5dfe18275da2cc3cacb874"
   dependencies:
     debug "^4.1.0"
     split2 "^3.1.0"

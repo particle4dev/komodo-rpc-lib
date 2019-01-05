@@ -1,4 +1,17 @@
+const path = require("path");
+const os = require("os");
 const KomodoRPC = require("kmd-rpc").default;
+
+function getNodeModulePath() {
+  return path.normalize(path.join(__dirname));
+}
+
+function getBinPath(
+  nodeModulePath = getNodeModulePath()
+) {
+  return path.join(nodeModulePath, "bin");
+}
+
 
 const debug = require("debug")("kmdrpc:test:start-kmdice");
 
@@ -19,7 +32,9 @@ const debug = require("debug")("kmdrpc:test:start-kmdice");
 
   try {
     // Step 1: create application
-    const api = KomodoRPC(application);
+    const api = KomodoRPC(application, {
+      bin: getBinPath()
+    });
 
     // Step 2: start the chain
     const komodod = await api.startDaemon(coin);
