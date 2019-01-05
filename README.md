@@ -13,6 +13,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/particle4dev/komodo-rpc-lib/badge.svg?branch=master)](https://coveralls.io/github/particle4dev/komodo-rpc-lib?branch=master)
 [![GitHub Issues](https://img.shields.io/github/issues/particle4dev/komodo-rpc-lib.svg)](https://github.com/particle4dev/komodo-rpc-lib/issues)
 [![Build Status](https://travis-ci.com/particle4dev/komodo-rpc-lib.svg?branch=master)](https://travis-ci.com/particle4dev/komodo-rpc-lib)
+[![NPM version](https://img.shields.io/npm/v/kmd-rpc.svg)](https://npmjs.org/package/kmd-rpc)
 
 </div>
 
