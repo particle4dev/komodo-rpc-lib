@@ -35,7 +35,7 @@ script:
   - chmod +x ./src/daemon/__tests__/app
   - 'yarn lint'
   - 'yarn test --coverage'
-  - 'if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then npm run devtest -- examples/call-rpc.js; fi'
+  - 'if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bin/fetch-params.sh; npm run devtest -- examples/call-rpc.js; fi'
 
 cache:
   - yarn

@@ -1,7 +1,8 @@
 .DS_Store
 !bin/
 bin/*
- # for travis test
+# for travis test
+!bin/fetch-params.sh
 !bin/mac/
 coverage
 dist
