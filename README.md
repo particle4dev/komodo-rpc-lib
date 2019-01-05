@@ -31,6 +31,24 @@
 
 - Npm: v6.3.0 or newer
 
+### Install
+
+## Installation
+
+Install the package via `yarn`:
+
+```sh
+yarn add kmd-rpc
+```
+
+or via `npm`:
+
+Install the package via `npm`:
+
+```sh
+npm install kmd-rpc --save
+``
+
 ## Examples
 
 -   [Basic example](examples/basic)
