@@ -71,7 +71,7 @@ const api = KomodoRPC(application, {
 });
 ```
 
-Launch [the chain](https://github.com/jl777/komodo/blob/master/src/assetchains.old), we will launch KMDice for example.
+Launch [the daemon](https://github.com/jl777/komodo/blob/master/src/assetchains.old), we will launch KMDice for example.
 
 ```js
 const coin = "KMDICE";
@@ -95,9 +95,23 @@ await komodod.start({
 Wait until the daemon launches and start interact with it
 
 ```js
+await komodod.waitUntilReady();
 
-aaa
+const getnewaddress = await api.rpc({
+  coin,
+  action: "getnewaddress"
+});
+debug(`getnewaddress = ${getnewaddress}`);
+```
 
+Stop the daemon
+
+```js
+if (komodod.isRunning() === true) {
+  const rs = await api.stop({
+    coin
+  });
+}
 ```
 
 ## Examples
