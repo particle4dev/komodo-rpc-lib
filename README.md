@@ -21,15 +21,6 @@
 
 **This project is bound by a [Code of Conduct][].**
 
-## Examples
-
--   [Basic example](examples/basic)
--   [Start KMDice chain](examples/start-kmdice.js)
--   [Start mutil chain](examples/start-mutil-chain.js)
--   [Start a chain and call RPC](examples/start-mutil-chain.js)
--   [Start a chain and read its config](examples/read-config.js)
--   [Start a chain with log options](examples/start-chain-with-log.js)
-
 ## Quickstart
 
 ### Prerequisites
@@ -41,6 +32,15 @@ Following are the minimum tested versions for the tools and libraries you need f
 - Yarn: v1.9.4 or newer
 
 - Npm: v6.3.0 or newer
+
+## Examples
+
+-   [Basic example](examples/basic)
+-   [Start KMDice chain](examples/start-kmdice.js)
+-   [Start mutil chain](examples/start-mutil-chain.js)
+-   [Start a chain and call RPC](examples/start-mutil-chain.js)
+-   [Start a chain and read its config](examples/read-config.js)
+-   [Start a chain with log options](examples/start-chain-with-log.js)
 
 ## Documentation
 
