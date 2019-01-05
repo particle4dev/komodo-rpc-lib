@@ -34,11 +34,13 @@ script:
   - chmod +x ./src/daemon/__tests__/app
   - 'yarn lint'
   - 'yarn test --coverage'
+  - 'if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then npm run devtest -- examples/call-rpc.js; fi'
 
 cache:
   - yarn
 
 after_success:
+  - 'if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then exit(0); fi'
   - 'cat ./coverage/lcov.info | ./node_modules/.bin/coveralls'
   - npm run build
   - 'echo "email=particle4dev@gmail.com" >> $HOME/.npmrc 2> /dev/null'
