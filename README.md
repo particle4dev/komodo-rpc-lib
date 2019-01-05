@@ -43,8 +43,6 @@ yarn add kmd-rpc
 
 or via `npm`:
 
-Install the package via `npm`:
-
 ```sh
 npm install kmd-rpc --save
 ```
