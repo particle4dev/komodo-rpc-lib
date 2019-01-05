@@ -1,8 +1,8 @@
 // @flow
 
 import callRPCFactory from "./callRPC";
-import { getInfo } from "./getinfo";
-import { stop } from "./stop";
+import getInfoFactory from "./getinfo";
+import stopFactory from "./stop";
 import type { RPCType } from "./schema";
 
 type OptionsInfo = {
@@ -13,9 +13,13 @@ export default function rpcFactory(options: OptionsInfo): RPCType {
   return Object.assign(
     {},
     {
-      rpc: callRPCFactory(options),
-      getInfo,
-      stop
-    }
+      rpc: callRPCFactory(options)
+    },
+    getInfoFactory({
+      bin: options.bin
+    }),
+    stopFactory({
+      bin: options.bin
+    })
   );
 }
