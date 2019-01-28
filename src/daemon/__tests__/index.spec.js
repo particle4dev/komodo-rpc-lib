@@ -8,6 +8,8 @@ test("src/daemon/index", () => {
   expect(typeof d.stop).toBe("function");
   expect(typeof d.isRunning).toBe("function");
   expect(typeof d.isReady).toBe("function");
+  expect(typeof d.waitUntilReady).toBe("function");
+  expect(typeof d.waitUntilStopped).toBe("function");
   expect(typeof d.on).toBe("function");
   expect(typeof d.getConfig).toBe("function");
   expect(typeof d.getCoin).toBe("function");

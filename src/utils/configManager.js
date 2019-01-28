@@ -1,4 +1,4 @@
-import dotProp from "./dot-prop";
+import dotProp from "./dotProp";
 
 const Config = () => {
   // init

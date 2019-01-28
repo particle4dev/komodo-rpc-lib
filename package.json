@@ -1,6 +1,6 @@
 {
   "name": "kmd-rpc",
-  "version": "0.4.5",
+  "version": "0.5.0",
   "description": "komodo rpc library",
   "license": "MIT",
   "repository": "particle4dev/komodo-rpc-lib",
@@ -21,7 +21,7 @@
     "flow": "flow check",
     "docs": "./node_modules/.bin/documentation build -f md src > docs/NODE_API.md",
     "postdocs": "git add README.md",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist coverage",
     "flowbuild": "flow-copy-source src dist",
     "prebuild": "npm run docs && npm run clean && npm run flowbuild",
     "build": "babel src -d dist",

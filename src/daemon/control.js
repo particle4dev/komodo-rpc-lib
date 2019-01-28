@@ -160,7 +160,6 @@ export default function controlFactory(state: StateType) {
           childProcess.kill();
         }
 
-        childProcess = null;
         if (config.force) {
           stop({
             coin: state.coin
@@ -205,6 +204,23 @@ export default function controlFactory(state: StateType) {
         setTimeout(() => {
           clearInterval(interval);
           reject(new Error("Giving up trying to connect to komodod"));
+        }, time);
+      });
+    },
+    waitUntilStopped(time: number = TIMEOUT): Promise<any> {
+      return new Promise((resolve, reject) => {
+        const interval = setInterval(async () => {
+          if (!childProcess) {
+            clearInterval(interval);
+            resolve({
+              ok: "done"
+            });
+          }
+        }, 100);
+
+        setTimeout(() => {
+          clearInterval(interval);
+          reject(new Error("Timeout"));
         }, time);
       });
     },

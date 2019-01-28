@@ -53,9 +53,9 @@ const debug = require("debug")("kmdrpc:test:call-rpc");
 
     const getaddressbalance = await komodod.rpc({
       action: "getaddressbalance",
-      args: {
+      args: JSON.stringify({
         addresses: ["RLC7XBJYemEeJxCcocj2vjDTcyuS5uFdJw"]
-      }
+      })
     });
     debug(`getaddressbalance = ${getaddressbalance}`);
 

@@ -1,6 +1,6 @@
-import m from "../dot-prop";
+import m from "../dotProp";
 
-describe("src/utils/dot-props", () => {
+describe("src/utils/dotProps", () => {
   it("get", () => {
     const f1 = { foo: { bar: 1 } };
     expect(m.get(f1)).toEqual(f1);

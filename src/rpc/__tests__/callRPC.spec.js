@@ -12,7 +12,8 @@ describe("src/rpc/callRPC", () => {
         argsRun
       });
     });
-    const rs = await callRPC({
+
+    let rs = await callRPC({
       cli: "cli",
       coin: "coin",
       action: "action",
@@ -23,10 +24,22 @@ describe("src/rpc/callRPC", () => {
 
     expect(rs).toEqual({
       cli: "cli",
-      argsRun: ["-ac_name=coin", "action", '{"one":1}']
+      argsRun: ["-ac_name=coin", "action", "-one=1"]
     });
 
-    expect(childProcess.execFile.mock.calls.length).toBe(1);
+    rs = await callRPC({
+      cli: "cli",
+      coin: "coin",
+      action: "action",
+      args: ["one", "two", "three"]
+    });
+
+    expect(rs).toEqual({
+      cli: "cli",
+      argsRun: ["-ac_name=coin", "action", "one", "two", "three"]
+    });
+
+    expect(childProcess.execFile.mock.calls.length).toBe(2);
   });
 
   test("callRPC throw error", async done => {

@@ -1,6 +1,6 @@
-import Config from "../config-manager";
+import Config from "../configManager";
 
-describe("src/utils/config-manager", () => {
+describe("src/utils/configManager", () => {
   it("get", () => {
     expect(typeof Config).toEqual("function");
 

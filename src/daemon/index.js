@@ -1,6 +1,6 @@
 // @flow
 
-import ConfigManager from "../utils/config-manager";
+import ConfigManager from "../utils/configManager";
 import configFactory from "./config";
 import controlFactory from "./control";
 import rpcFactory from "./rpc";

@@ -21,6 +21,7 @@ describe("src/daemon/control", () => {
     expect(typeof control.isRunning).toBe("function");
     expect(typeof control.isReady).toBe("function");
     expect(typeof control.waitUntilReady).toBe("function");
+    expect(typeof control.waitUntilStopped).toBe("function");
     expect(typeof control.on).toBe("function");
   });
 
